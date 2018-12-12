@@ -4,11 +4,10 @@ Memoria de las prácticas de Sistemas Operativos.
 
 ## Índice
 
-1. [Módulo II](#modulo2)
-  1. [Sesión 1](#sesion1)
-    1. [Ejercicio 1](#ejer1)
-  2. Otro
-2. Algo
++ [Módulo II](#modulo2)
+  + [Sesión 1](#sesion1)
+    + [Ejercicio 1](#ejer1)
+  + Sesión 2
 
 
 
