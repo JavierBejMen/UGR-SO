@@ -8,13 +8,17 @@ Memoria de las prácticas de Sistemas Operativos.
   1. [Sesión 1](#sesion1)
     1. [Ejercicio 1](#ejer1)
 
+
 ---
 
+<a name="modulo2"></a>
+## Módulo II
 
-## Módulo II <a name="modulo2"></a>
+<a name="sesion1"></a>
+### Sesión I
 
-### Sesión I <a name="sesion1"></a>
-**Ejercicio 1**<a name="ejer1"></a>. ¿Qué hace el siguiente programa? Probad tras la ejecución del programa las siguientes órdenes del shell: `$> cat archivo y $> od -c archivo`
+<a name="ejer1"></a>
+**Ejercicio 1**. ¿Qué hace el siguiente programa? Probad tras la ejecución del programa las siguientes órdenes del shell: `$> cat archivo y $> od -c archivo`
 
 ```c
 /*
