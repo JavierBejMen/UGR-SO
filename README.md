@@ -2,10 +2,19 @@
 
 Memoria de las prácticas de Sistemas Operativos.
 
-## Módulo II
+## Índice
 
-### Sesión I
-**Ejercicio 1**. ¿Qué hace el siguiente programa? Probad tras la ejecución del programa las siguientes órdenes del shell: `$> cat archivo y $> od -c archivo`
+1. [Módulo II](#modulo2)
+  1. [Sesión 1](#sesion1)
+    1. [Ejercicio 1](#ejer1)
+
+---
+
+
+## Módulo II <a name="modulo2"></a>
+
+### Sesión I <a name="sesion1"></a>
+**Ejercicio 1**<a name="ejer1"></a>. ¿Qué hace el siguiente programa? Probad tras la ejecución del programa las siguientes órdenes del shell: `$> cat archivo y $> od -c archivo`
 
 ```c
 /*
@@ -85,5 +94,21 @@ Hacemos un volcado del archivo `$> od -c archivo`, obteniendo:
 ```
 
 Y observamos el contenido del archivo en sus distintas posiciones, que corresponden a los 10 primeros bytes de la primera escritura, 30 bytes con el carácter nulo escritos al definir el offset en 40 bytes y la posterior escritura de 10 bytes.
+
+
+**Ejercicio 2**. Implementa un programa que realice la siguiente funcionalidad. El programa acepta como argumento el nombre de un archivo (pathname), lo abre y lo lee en bloques de tamaño 80 Bytes, y crea un nuevo archivo de salida, salida.txt, en el que debe aparecer la siguiente información:
+```
+Bloque 1
+// Aquí van los primeros 80 Bytes del archivo pasado como argumento.
+
+Bloque 2
+// Aquí van los siguientes 80 Bytes del archivo pasado como argumento.
+
+...
+
+Bloque n
+// Aquí van los siguientes 80 Bytes del archivo pasado como argumento.
+```
+Si no se pasa un argumento al programa se debe utilizar la entrada estándar como archivo de entrada.
 
 ------------
