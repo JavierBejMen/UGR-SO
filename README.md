@@ -7,6 +7,7 @@ Memoria de las prácticas de Sistemas Operativos.
 + [Módulo II](#modulo2)
   + [Sesión 1](#sesion1)
     + [Ejercicio 1](#ejer1)
+    + [Ejercicio 2](#ejer2)
   + Sesión 2
 
 
@@ -101,7 +102,7 @@ Hacemos un volcado del archivo `$> od -c archivo`, obteniendo:
 
 Y observamos el contenido del archivo en sus distintas posiciones, que corresponden a los 10 primeros bytes de la primera escritura, 30 bytes con el carácter nulo escritos al definir el offset en 40 bytes y la posterior escritura de 10 bytes.
 
-
+<a name="ejer2"></a>
 **Ejercicio 2**. Implementa un programa que realice la siguiente funcionalidad. El programa acepta como argumento el nombre de un archivo (pathname), lo abre y lo lee en bloques de tamaño 80 Bytes, y crea un nuevo archivo de salida, salida.txt, en el que debe aparecer la siguiente información:
 ```
 Bloque 1
