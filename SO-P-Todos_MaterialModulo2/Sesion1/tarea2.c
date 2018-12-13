@@ -17,6 +17,8 @@ Trabajo con llamadas al sistema del Sistema de Archivos ''POSIX 2.10 compliant''
 #include<errno.h>
 #include<string.h>
 
+#define S_ISREG2(mode)  (((mode_t)(mode) & S_IFREG ) ? 1 : 0)
+
 int main(int argc, char *argv[])
 {
 int i;
@@ -34,7 +36,8 @@ for(i=1;i<argc;i++) {
 		perror("\nError en lstat");
 	}
 	else {
-		if(S_ISREG(atributos.st_mode)) strcpy(tipoArchivo,"Regular");
+		
+		if(S_ISREG2(atributos.st_mode)) strcpy(tipoArchivo,"Regular");
 		else if(S_ISDIR(atributos.st_mode)) strcpy(tipoArchivo,"Directorio");
 		else if(S_ISCHR(atributos.st_mode)) strcpy(tipoArchivo,"Especial de caracteres");
 		else if(S_ISBLK(atributos.st_mode)) strcpy(tipoArchivo,"Especial de bloques");

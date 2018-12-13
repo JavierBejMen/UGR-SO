@@ -322,7 +322,7 @@ Muestra por la salida estandar el tipo de archivo para cada archivo pasado por p
 ```
 Solución:
 ```c
-
+#define S_ISREG2(mode)  (((mode_t)(mode) & S_IFREG ) ? 1 : 0)
 ```
 
 
