@@ -9,7 +9,7 @@ Memoria de las prácticas de Sistemas Operativos.
     + [Ejercicio 1](#ejer1)
     + [Ejercicio 2](#ejer2)
     + [Ejercicio 3](#ejer3)
-    + [Ejercicio 4](#jer4)
+    + [Ejercicio 4](#ejer4)
   + [Sesión 2](#sesion2)
 
 
