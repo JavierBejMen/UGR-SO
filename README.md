@@ -9,6 +9,7 @@ Memoria de las prácticas de Sistemas Operativos.
     + [Ejercicio 1](#ejer1)
     + [Ejercicio 2](#ejer2)
     + [Ejercicio 3](#ejer3)
+    + [Ejercicio 4](#jer4)
   + [Sesión 2](#sesion2)
 
 
@@ -308,7 +309,22 @@ return EXIT_SUCCESS;
 }
 ```
 
+Muestra por la salida estandar el tipo de archivo para cada archivo pasado por parámetro.
+
 ---
+
+<a name="ejer4"></a>
+**Ejercicio 4**. Define una macro en lenguaje C que tenga la misma funcionalidad que la macro S_ISREG(mode) usando para ello los flags definidos en <sys/stat.h> para el campo st_mode de la struct stat, y comprueba que funciona en un programa simple. Consulta en un libro de C o en internet cómo se especifica una macro con argumento en C.
+
+```c
+#define S_ISREG2(mode)
+...
+```
+Solución:
+```c
+
+```
+
 
 <a name="sesion2"></a>
 ### Sesión II
