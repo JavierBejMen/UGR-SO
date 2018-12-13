@@ -11,6 +11,8 @@ Memoria de las prácticas de Sistemas Operativos.
     + [Ejercicio 3](#ejer3)
     + [Ejercicio 4](#ejer4)
   + [Sesión 2](#sesion2)
+    + [Ejercicio 1](#ejer21)
+    + [Ejercicio 2](#ejer22)
 
 
 
@@ -329,5 +331,85 @@ Solución:
 <a name="sesion2"></a>
 ### Sesión II
 
+<a name="ejer21"></a>
+**Ejercicio 1**. ¿Qué hace el siguiente programa?
+
+```c
+/*
+tarea3.c
+Trabajo con llamadas al sistema del Sistema de Archivos ''POSIX 2.10 compliant''
+Este programa fuente est� pensado para que se cree primero un programa con la parte
+ de CREACION DE ARCHIVOS y se haga un ls -l para fijarnos en los permisos y entender
+ la llamada umask.
+En segundo lugar (una vez creados los archivos) hay que crear un segundo programa
+ con la parte de CAMBIO DE PERMISOS para comprender el cambio de permisos relativo
+ a los permisos que actualmente tiene un archivo frente a un establecimiento de permisos
+ absoluto.
+*/
+
+#include<sys/types.h>	//Primitive system data types for abstraction of implementation-dependent data types.
+						//POSIX Standard: 2.6 Primitive System Data Types <sys/types.h>
+#include<unistd.h>		//POSIX Standard: 2.10 Symbolic Constants         <unistd.h>
+#include<sys/stat.h>
+#include<fcntl.h>		//Needed for open
+#include<stdio.h>
+#include<errno.h>
+#include<stdlib.h>
+
+int main(int argc, char *argv[])
+{
+int fd1,fd2;
+struct stat atributos;
+
+//CREACION DE ARCHIVOS
+if( (fd1=open("archivo1",O_CREAT|O_TRUNC|O_WRONLY,S_IRGRP|S_IWGRP|S_IXGRP))<0) {
+	printf("\nError %d en open(archivo1,...)",errno);
+	perror("\nError en open");
+	exit(EXIT_FAILURE);
+}
+
+umask(0);
+if( (fd2=open("archivo2",O_CREAT|O_TRUNC|O_WRONLY,S_IRGRP|S_IWGRP|S_IXGRP))<0) {
+	printf("\nError %d en open(archivo2,...)",errno);
+	perror("\nError en open");
+	exit(EXIT_FAILURE);
+}
+
+//CAMBIO DE PERMISOS
+if(stat("archivo1",&atributos) < 0) {
+	printf("\nError al intentar acceder a los atributos de archivo1");
+	perror("\nError en lstat");
+	exit(EXIT_FAILURE);
+}
+if(chmod("archivo1", (atributos.st_mode & ~S_IXGRP) | S_ISGID) < 0) {
+	perror("\nError en chmod para archivo1");
+	exit(EXIT_FAILURE);
+}
+if(chmod("archivo2",S_IRWXU | S_IRGRP | S_IWGRP | S_IROTH) < 0) {
+	perror("\nError en chmod para archivo2");
+	exit(EXIT_FAILURE);
+}
+
+return EXIT_SUCCESS;
+}
+```
+El programa crea dos archivos, asignando permisos de lectura, escritura y ejecución al grupo, seguidamente se leen los atributos del `archivo1`, se desactiva el permiso de ejecución para el grupo y se activa el *Sticky bit*, mientras que al `archivo2` se le asignan los permisos `rwx` al usuario, `rw` al grupo y `r` a otros.
+Con la llamada `umask(0)` especificamos que cualquier permiso puede ser modificado.
+
+<a name="ejer22"></a>
+**Ejercicio 2**.Realiza un programa en C utilizando las llamadas al sistema necesarias que acepte como entrada:
+
+- Un argumento que representa el 'pathname' de un directorio.
+- Otro argumento que es un número octal de 4 dígitos (similar al que se puede utilizar para cambiar los permisos en la llamada al sistema chmod). Para convertir este argumento tipo cadena a un tipo numérico puedes utilizar la función strtol. Consulta el manual en línea para conocer sus argumentos.
+
+El programa tiene que usar el número octal indicado en el segundo argumento para cambiar los permisos de todos los archivos que se encuentren en el directorio indicado en el primer argumento.  
+El programa debe proporcionar en la salida estándar una línea para cada archivo del directorio que esté formada por:  
+```shell
+<nombre_de_archivo> : <permisos_antiguos> <permisos_nuevos>
+```
+Si no se pueden cambiar los permisos de un determinado archivo se debe especificar la siguiente información en la línea de salida:  
+```shell
+<nombre_de_archivo> : <errno> <permisos_antiguos>
+```
 
 ------------

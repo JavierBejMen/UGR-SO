@@ -1,7 +1,7 @@
 /*
 tarea3.c
 Trabajo con llamadas al sistema del Sistema de Archivos ''POSIX 2.10 compliant''
-Este programa fuente está pensado para que se cree primero un programa con la parte
+Este programa fuente estï¿½ pensado para que se cree primero un programa con la parte
  de CREACION DE ARCHIVOS y se haga un ls -l para fijarnos en los permisos y entender
  la llamada umask.
 En segundo lugar (una vez creados los archivos) hay que crear un segundo programa
@@ -37,6 +37,7 @@ if( (fd2=open("archivo2",O_CREAT|O_TRUNC|O_WRONLY,S_IRGRP|S_IWGRP|S_IXGRP))<0) {
 	perror("\nError en open");
 	exit(EXIT_FAILURE);
 }
+
 
 //CAMBIO DE PERMISOS
 if(stat("archivo1",&atributos) < 0) {
