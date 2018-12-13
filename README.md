@@ -412,4 +412,6 @@ Si no se pueden cambiar los permisos de un determinado archivo se debe especific
 <nombre_de_archivo> : <errno> <permisos_antiguos>
 ```
 
+asdf
+
 ------------
