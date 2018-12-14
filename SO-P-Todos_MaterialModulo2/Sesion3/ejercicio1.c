@@ -29,7 +29,7 @@ int main(int argc, char *argv[]){
 
   long int n;
 
-  if( (n=strtol(argv[1], (char**)NULL, 10)) == 0 && argv[1] != 0 ){
+  if( (n=strtol(argv[1], (char**)NULL, 10)) == 0 && errno != 0 ){
     printf("Error %d en strtol(%s)\n",errno, argv[1]);
     perror("Error en strtol\n");
     exit(EXIT_FAILURE);

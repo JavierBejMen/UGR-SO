@@ -17,6 +17,7 @@ Memoria de las prácticas de Sistemas Operativos.
     + [Ejercicio 4](#ejer24)
   + [Sesión 3](#sesion3)
     + [Ejercicio 1](#ejer31)
+    + [Ejercicio 2](#ejer32)
 
 
 
@@ -752,7 +753,7 @@ int main(int argc, char *argv[]){
 
   long int n;
 
-  if( (n=strtol(argv[1], (char**)NULL, 10)) == 0 && argv[1] != 0 ){
+  if( (n=strtol(argv[1], (char**)NULL, 10)) == 0 && errno != 0 ){
     printf("Error %d en strtol(%s)\n",errno, argv[1]);
     perror("Error en strtol\n");
     exit(EXIT_FAILURE);
@@ -778,5 +779,53 @@ int main(int argc, char *argv[]){
 
   return EXIT_SUCCESS;
 }
+```
+<a name="ejer32"></a>
+**Ejercicio 2**. ¿Qué hace el siguiente programa? Intenta entender lo que ocurre con las variables y sobre todo con los mensajes por pantalla cuando el núcleo tiene activado/desactivado el mecanismo de buffering.
+
+```c
+//tarea4.c
+//Trabajo con llamadas al sistema del Subsistema de Procesos "POSIX 2.10 compliant"
+//Prueba el programa tal y como está. Después, elimina los comentarios (1) y pruebalo de nuevo.
+
+#include<sys/types.h>	//Primitive system data types for abstraction of implementation-dependent data types.
+						//POSIX Standard: 2.6 Primitive System Data Types <sys/types.h>
+#include<unistd.h>		//POSIX Standard: 2.10 Symbolic Constants         <unistd.h>
+#include<stdio.h>
+#include<errno.h>
+#include <stdlib.h>
+
+int global=6;
+char buf[]="cualquier mensaje de salida\n";
+
+int main(int argc, char *argv[])
+{
+int var;
+pid_t pid;
+
+var=88;
+if(write(STDOUT_FILENO,buf,sizeof(buf)+1) != sizeof(buf)+1) {
+	perror("\nError en write");
+	exit(EXIT_FAILURE);
+}
+//(1)if(setvbuf(stdout,NULL,_IONBF,0)) {
+//	perror("\nError en setvbuf");
+//}
+printf("\nMensaje previo a la ejecución de fork");
+
+if( (pid=fork())<0) {
+	perror("\nError en el fork");
+	exit(EXIT_FAILURE);
+}
+else if(pid==0) {  
+	//proceso hijo ejecutando el programa
+	global++;
+	var++;
+} else  //proceso padre ejecutando el programa
+	sleep(1);		
+printf("\npid= %d, global= %d, var= %d\n", getpid(),global,var);
+exit(EXIT_SUCCESS);
+}
+
 ```
 ---
