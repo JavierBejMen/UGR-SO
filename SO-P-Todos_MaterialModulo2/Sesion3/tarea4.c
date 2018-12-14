@@ -22,21 +22,21 @@ if(write(STDOUT_FILENO,buf,sizeof(buf)+1) != sizeof(buf)+1) {
 	perror("\nError en write");
 	exit(EXIT_FAILURE);
 }
-//(1)if(setvbuf(stdout,NULL,_IONBF,0)) {
-//	perror("\nError en setvbuf");
-//}
+if(setvbuf(stdout,NULL,_IONBF,0)) {
+	perror("\nError en setvbuf");
+}
 printf("\nMensaje previo a la ejecución de fork");
 
 if( (pid=fork())<0) {
 	perror("\nError en el fork");
 	exit(EXIT_FAILURE);
 }
-else if(pid==0) {  
+else if(pid==0) {
 	//proceso hijo ejecutando el programa
 	global++;
 	var++;
 } else  //proceso padre ejecutando el programa
-	sleep(1);		
+	sleep(1);
 printf("\npid= %d, global= %d, var= %d\n", getpid(),global,var);
 exit(EXIT_SUCCESS);
 }

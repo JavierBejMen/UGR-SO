@@ -828,4 +828,37 @@ exit(EXIT_SUCCESS);
 }
 
 ```
+
+Aunque `write()` no cree un buffer de salida, el núcleo si lo crea para las operaciones de I/O en c, en este caso la función `printf()`, lo que provoca que con la llamada a `fork()` se duplique dicho buffer, impriendo dos veces *Mensaje previo a la ejecución de fork*, con la llamada a `setvbuf()` desactivamos el buffering en las operaciones I/O de la biblioteca estándar, imprimiendo el mensaje solo una vez, antes del `fork()`.
+
+<a name="ejer33"></a>
+**Ejercicio 3**. Indica qué tipo de jerarquías de procesos se generan mediante la ejecución de cada uno de los siguientes fragmentos de código. Comprueba tu solución implementando un código para generar 20 procesos en cada caso, en donde cada proceso imprima su PID y el del padre, PPID.
+
+```c
+/*
+Jerarquía de procesos tipo 1
+*/
+for (i=1; i < nprocs; i++) {
+ if ((childpid= fork()) == -1) {
+ fprintf(stderr, "Could not create child %d: %s\n",i,strerror(errno));
+ exit(-1);
+ }
+
+ if (childpid)
+ break;
+}
+/*
+Jerarquía de procesos tipo 2
+*/
+for (i=1; i < nprocs; i++) {
+ if ((childpid= fork()) == -1) {
+ fprintf(stderr, "Could not create child %d: %s\n",i,strerror(errno));
+ exit(-1);
+ }
+
+ if (!childpid)
+ break;
+}
+```
+
 ---
