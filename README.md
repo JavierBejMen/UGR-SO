@@ -23,6 +23,7 @@ Memoria de las prácticas de Sistemas Operativos.
     + [Ejercicio 5](#ejer35)
     + [Ejercicio 6](#ejer36)
     + [Ejercicio 7](#ejer37)
+  + [Sesión 4](#sesion4)
 
 
 
@@ -1179,5 +1180,10 @@ int main(int argc, char *argv[]){
   return EXIT_SUCCESS;
 }
 ```
+
+---
+
+<a name="sesion4"></a>
+### Sesión 4
 
 ---
