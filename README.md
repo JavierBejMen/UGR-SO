@@ -1123,6 +1123,11 @@ exit(EXIT_SUCCESS);
 El programa crea un hijo y este ejecuta el comando `ldd` sobre el propio ejecutable `./tarea5`.
 
 <a name="ejer37"></a>
-**Ejercicio 7**.
+**Ejercicio 7**.Escribe un programa que acepte como argumentos el nombre de un programa, sus argumentos si los tiene, y opcionalmente la cadena *bg*. Nuesto programa deberá ejecutar el programa pasado como primer argumento en foreground si no se especifica la cadena *bg* y en background en caso contrario. Si el programa tiene argumentos hay que ejecutarlo con éstos.
+
+Solución:
+```c
+
+```
 
 ---
