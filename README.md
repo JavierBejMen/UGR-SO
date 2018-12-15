@@ -837,7 +837,7 @@ Aunque `write()` no cree un buffer de salida, el núcleo si lo crea para las ope
 
 ```c
 /*
-Jerarquía de procesos tipo 1
+Jerarquía de procesos tipo 2
 */
 for (i=1; i < nprocs; i++) {
  if ((childpid= fork()) == -1) {
@@ -849,7 +849,7 @@ for (i=1; i < nprocs; i++) {
  break;
 }
 /*
-Jerarquía de procesos tipo 2
+Jerarquía de procesos tipo 1
 */
 for (i=1; i < nprocs; i++) {
  if ((childpid= fork()) == -1) {
@@ -861,5 +861,64 @@ for (i=1; i < nprocs; i++) {
  break;
 }
 ```
+
+Solución jerarquía tipo 1:
+```c
+#include<sys/types.h>
+#include<unistd.h>
+#include<stdio.h>
+#include<errno.h>
+#include <stdlib.h>
+
+#define MAX_CHILD 10
+
+int main(int argc, char *argv[]){
+
+  //Jerarquia tipo 1(el padre crea todos los hijos)
+
+  pid_t pid;
+  for(unsigned int i = 0; (i < MAX_CHILD) && (pid=fork()) != 0 ; ++i){
+
+    if(pid == -1){
+      printf("Error %d en fork() %i\n", errno, i);
+      perror("Error en fork()\n");
+      exit(EXIT_FAILURE);
+    }
+  }
+
+  printf("PID %u, PPID %u\n", getpid(), getppid());
+  return EXIT_SUCCESS;
+}
+```
+
+Solución jerarquía tipo 2:
+```c
+#include<sys/types.h>
+#include<unistd.h>
+#include<stdio.h>
+#include<errno.h>
+#include <stdlib.h>
+
+#define MAX_CHILD 10
+
+int main(int argc, char *argv[]){
+
+  //Jerarquia tipo 2(solo el proceso sin hijo crea un hijo)
+
+  pid_t pid;
+  for(unsigned int i = 0; (i < MAX_CHILD) && (pid=fork()) == 0 ; ++i){
+
+    if(pid == -1){
+      printf("Error %d en fork() %i\n", errno, i);
+      perror("Error en fork()\n");
+      exit(EXIT_FAILURE);
+    }
+  }
+
+  printf("PID %u, PPID %u\n", getpid(), getppid());
+  return EXIT_SUCCESS;
+}
+```
+
 
 ---
