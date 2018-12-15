@@ -19,6 +19,8 @@ Memoria de las prácticas de Sistemas Operativos.
     + [Ejercicio 1](#ejer31)
     + [Ejercicio 2](#ejer32)
     + [Ejercicio 3](#ejer33)
+    + [Ejercicio 4](#ejer34)
+    + [Ejercicio 5](#ejer35)
 
 
 
@@ -920,5 +922,64 @@ int main(int argc, char *argv[]){
 }
 ```
 
+<a name="ejer34"></a>
+**Ejercicio 4**. Implementa un programa que lance cinco procesos hijo. Cada uno de ellos se identificará en la salida estándar, mostrando un mensaje del tipo `Soy el hijo PID`. El proceso padre simplemente tendrá que esperar la finalización de todos sus hijos y cada vez que detecte la finalización de uno de sus hijos escribirá en la salida estándar un mensaje del tipo:
+```shell
+Acaba de finalizar mi hijo con <PID>
+Sólo me quedan <NUM_HIJOS> hijos vivos
+```
+
+Solución:
+```c
+#include<sys/types.h>
+#include<unistd.h>
+#include<stdio.h>
+#include<errno.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+
+#define HIJOS_MAX 5
+
+int main(int argc, char *argv[]){
+
+  unsigned int n_hijos = 0;
+  pid_t lastchild;
+
+  do{
+    if( (lastchild=fork()) < 0){
+      printf("Error %d en fork() %i\n", errno, n_hijos);
+      perror("Error en fork()\n");
+      exit(EXIT_FAILURE);
+    }
+
+    if(lastchild==0){
+      printf("Soy el hijo %u\n", getpid());
+    }else{
+      ++n_hijos;
+    }
+  }while(n_hijos < HIJOS_MAX && lastchild != 0);
+
+  if(lastchild==0){
+    exit(EXIT_SUCCESS);
+  }else{
+    int waitstatus;
+    do{
+      if( (lastchild=wait(&waitstatus)) < 0){
+        printf("Error %d en wait()\n", errno);
+        perror("Error en wait()\n");
+        exit(EXIT_FAILURE);
+      }else{
+        --n_hijos;
+        printf("Acaba de finalizar mi hijo %u\n", lastchild);
+        printf("Sólo me quedan %u hijos vivos\n", n_hijos);
+      }
+    }while(n_hijos > 0);
+  }
+
+  return EXIT_SUCCESS;
+}
+```
+<a name="ejer35"></a>
+**Ejercicio 5**.
 
 ---
