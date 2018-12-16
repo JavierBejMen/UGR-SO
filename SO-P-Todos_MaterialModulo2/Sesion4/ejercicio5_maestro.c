@@ -83,26 +83,40 @@ int main(int argc, char *argv[]){
     intervals[i] = intervals[i-1] + mid_interval;
   }
 
-  for (size_t i = 0; i < nIntervals-1; i++) {
-    if(i == 0){
-      printf("Intervalo %lu: [%li, %li]\n", i+1, intervals[i], intervals[i+1]);
-    }else{
-      printf("Intervalo %lu: [%li, %li]\n", i+1, intervals[i]+1, intervals[i+1]);
-    }
-  }
+  //Vector de cauces
+  int fd[nP][2];
 
-  //Creación de cauces sin nombre
-  int fd_in[2], fd_out[2];
-  pipe(fd_in); //Cauce esclavos>>maestro
-  pipe(fd_out); //Cauce maestro>>esclavos
-
-  //Creación y asignación de los procesos hijo
+  //Creación y asignación de los procesos hijo y creación de cauces
   pid_t PID;
   for (size_t i = 0; i < nIntervals-1; i++) {
-    if(i == 0){
-      printf("Intervalo %lu: [%li, %li]\n", i+1, intervals[i], intervals[i+1]);
+
+    //creamos el cauce
+    pipe(fd[i]);
+
+    //Creamos el hijo
+    if( (PID=fork()) < 0){
+      printf("Error %d en fork()\n", errno);
+      perror("Error en fork\n");
+      exit(EXIT_FAILURE);
+    }
+
+    if( PID == 0 ){
+      //Ajuste del cauce en hijo
+      close(fd[i][0]); //Cerramos el descriptor de lectura
+      dup2(fd[i][1], STDOUT_FILENO); //Redireccionamos a la salida estándar
+
+      //Ejecucion
+      
     }else{
-      printf("Intervalo %lu: [%li, %li]\n", i+1, intervals[i]+1, intervals[i+1]);
+      //Ajuste del cauce padre
+      close(fd[i][1]); //Cerramos el descriptor de escritura
+      dup2(fd[i][0], STDIN_FILENO); //Redireccionamos a la entrada estándar
+
+      if(i == 0){
+        printf("Intervalo %lu: [%li, %li] ===> hijo(%u)\n", i+1, intervals[i], intervals[i+1], PID);
+      }else{
+        printf("Intervalo %lu: [%li, %li] ===> hijo(%u)\n", i+1, intervals[i]+1, intervals[i+1], PID);
+      }
     }
   }
 
