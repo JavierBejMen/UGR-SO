@@ -27,6 +27,7 @@ Memoria de las prácticas de Sistemas Operativos.
     + [Ejercicio 1](#ejer41)
     + [Ejercicio 2](#ejer42)
     + [Ejercicio 3](#ejer43)
+    + [Ejercicio 4](#ejer44)
 
 
 
@@ -1423,7 +1424,7 @@ pid_t PID;
 pipe(fd); // Llamada al sistema para crear un pipe
 
 if ( (PID= fork())<0) {
-	perror("\Error en fork");
+	perror("\nError en fork");
 	exit(EXIT_FAILURE);
 }
 if (PID == 0) { // ls
