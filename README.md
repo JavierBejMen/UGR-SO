@@ -26,6 +26,7 @@ Memoria de las prácticas de Sistemas Operativos.
   + [Sesión 4](#sesion4)
     + [Ejercicio 1](#ejer41)
     + [Ejercicio 2](#ejer42)
+    + [Ejercicio 3](#ejer43)
 
 
 
@@ -1334,5 +1335,122 @@ return EXIT_SUCCESS;
 
 Se crea un cauce sin nombre, se crea un proceso hijo que hereda los descriptores del cauce y se cierra el descriptor de lectura en el proceso hijo y el descriptor de escritura en el proceso padre, el hijo escribe el mensaje y el padre lo lee y lo imprime por la salida estándar.
 
+<a name="ejer43"></a>
+**Ejercicio 3**. Redirigiendo las entradas y salidas estándares de los procesos a los cauces podemos escribir un programa en lenguaje C que permita comunicar órdenes existentes sin necesidad de *reprogramarlas*, tal como hace el *shell* (por ejemplo `ls | sort`). En particular, ejecute el siguiente programa que ilustra la comunicación entre proceso padre e hijo a través de un cauce sin nombre redirigiendo la entrada estándar y la salida estándar del padre y el hijo respectivamente.
+
+```c
+/*
+tarea7.c
+Programa ilustrativo del uso de pipes y la redirecci�n de entrada y
+salida est�ndar: "ls | sort"
+*/
+
+#include<sys/types.h>
+#include<fcntl.h>
+#include<unistd.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<errno.h>
+
+int main(int argc, char *argv[])
+{
+int fd[2];
+pid_t PID;
+
+pipe(fd); // Llamada al sistema para crear un pipe
+
+if ( (PID= fork())<0) {
+	perror("fork");
+	exit(EXIT_FAILURE);
+}
+if(PID == 0) { // ls
+	//Establecer la direccion del flujo de datos en el cauce cerrando
+	// el descriptor de lectura de cauce en el proceso hijo
+	close(fd[0]);
+
+	//Redirigir la salida estandar para enviar datos al cauce
+	//--------------------------------------------------------
+	//Cerrar la salida estandar del proceso hijo
+	close(STDOUT_FILENO);
+
+	//Duplicar el descriptor de escritura en cauce en el descriptor
+	//correspondiente a la salida estandar (stdout)
+	dup(fd[1]);
+	execlp("ls","ls",NULL);
+}
+else { // sort. Estoy en el proceso padre porque PID != 0
+
+	//Establecer la direcci�n del flujo de datos en el cauce cerrando
+	// el descriptor de escritura en el cauce del proceso padre.
+	close(fd[1]);
+
+	//Redirigir la entrada est�ndar para tomar los datos del cauce.
+	//Cerrar la entrada est�ndar del proceso padre
+	close	(STDIN_FILENO);
+
+	//Duplicar el descriptor de lectura de cauce en el descriptor
+	//correspondiente a la entrada est�ndar (stdin)
+	dup(fd[0]);
+	execlp("sort","sort",NULL);
+}
+
+return EXIT_SUCCESS;
+}
+```
+
+<a name="ejer44"></a>
+**Ejercicio 4**. Compare el siguiente programa con el anterior y ejecútelo. Describa la principal diferencia, si existe, tanto en su código como en el resultado de la ejecución.
+
+```c
+/*
+tarea8.c
+Programa ilustrativo del uso de pipes y la redirecci�n de entrada y
+salida est�ndar: "ls | sort", utilizando la llamada dup2.
+*/
+
+#include<sys/types.h>
+#include<fcntl.h>
+#include<unistd.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<errno.h>
+
+int main(int argc, char *argv[])
+{
+int fd[2];
+pid_t PID;
+
+pipe(fd); // Llamada al sistema para crear un pipe
+
+if ( (PID= fork())<0) {
+	perror("\Error en fork");
+	exit(EXIT_FAILURE);
+}
+if (PID == 0) { // ls
+	//Cerrar el descriptor de lectura de cauce en el proceso hijo
+	close(fd[0]);
+
+	//Duplicar el descriptor de escritura en cauce en el descriptor
+	//correspondiente a la salida estandr (stdout), cerrado previamente en
+	//la misma operacion
+	dup2(fd[1],STDOUT_FILENO);
+	execlp("ls","ls",NULL);
+}
+else { // sort. Proceso padre porque PID != 0.
+	//Cerrar el descriptor de escritura en cauce situado en el proceso padre
+	close(fd[1]);
+
+	//Duplicar el descriptor de lectura de cauce en el descriptor
+	//correspondiente a la entrada est�ndar (stdin), cerrado previamente en
+	//la misma operaci�n
+	dup2(fd[0],STDIN_FILENO);
+	execlp("sort","sort",NULL);
+}
+
+return EXIT_SUCCESS;
+}
+```
+
+Ambos programas realizan la misma función, abre un cauce y redireccionan la salida/entrada estándar a dicho cauce, solo que el primero utiliza la función `pip()`, que duplicará el cauce al descriptor mas bajo disponible, que, previamente cerrado, será la *salida/entrada* estándar, mientras que el segundo programa utiliza la función `pip2()`,a la que se le asigna explícitamente el descriptor de la *salida/entrada* estándar, cerrándola en caso de que sea necesario (que lo es).
 
 ---
