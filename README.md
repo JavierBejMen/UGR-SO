@@ -1452,6 +1452,6 @@ return EXIT_SUCCESS;
 }
 ```
 
-Ambos programas realizan la misma función, abre un cauce y redireccionan la salida/entrada estándar a dicho cauce, solo que el primero utiliza la función `pip()`, que duplicará el cauce al descriptor mas bajo disponible, que, previamente cerrado, será la *salida/entrada* estándar, mientras que el segundo programa utiliza la función `pip2()`,a la que se le asigna explícitamente el descriptor de la *salida/entrada* estándar, cerrándola en caso de que sea necesario (que lo es).
+Ambos programas realizan la misma función, abre un cauce y redireccionan la salida/entrada estándar a dicho cauce, solo que el primero utiliza la función `pip()`, que duplicará el cauce al descriptor mas bajo disponible, que, previamente cerrado, será la *salida/entrada* estándar, mientras que el segundo programa utiliza la función `pip2()`, a la que se le asigna explícitamente el descriptor de la *salida/entrada* estándar, cerrándola en caso de que sea necesario (que lo es).
 
 ---
