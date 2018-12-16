@@ -1283,6 +1283,56 @@ return EXIT_SUCCESS;
 El programa consumidor primero establece la máscara de permisos para porder habilitar cualquier permiso `umask(0)`, seguidamente crea el cauce *FIFO* mediante `mknod(ARCHIVO_FIFO,S_IFIFO|0666,0)` y lo abre, entra en el bucle quedando bloqueado hasta que el programa *productor* escriba en el cauce mediante `(write(fd,argv[1],strlen(argv[1])+1)) != strlen(argv[1])+1`, abriendo dicho cauce anteriormente mediante `(fd=open(ARCHIVO_FIFO,O_WRONLY))`.
 
 <a name="ejer42"></a>
-**Ejercicio 2**.
+**Ejercicio 2**.Consulte en el manual en línea la llamada al sistema pipe para la creación de cauces sin nombre. Pruebe a ejecutar el siguiente programa que utiliza un cauce sin nombre y describa la función que realiza. Justifique la respuesta.
+
+```c
+/*
+tarea6.c
+Trabajo con llamadas al sistema del Subsistema de Procesos y Cauces conforme a POSIX 2.10
+*/
+
+#include<sys/types.h>
+#include<fcntl.h>
+#include<unistd.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<errno.h>
+#include<string.h>
+
+int main(int argc, char *argv[])
+{
+int fd[2], numBytes;
+pid_t PID;
+char mensaje[]= "\nEl primer mensaje transmitido por un cauce!!\n";
+char buffer[80];
+
+pipe(fd); // Llamada al sistema para crear un cauce sin nombre
+
+if ( (PID= fork())<0) {
+	perror("fork");
+	exit(EXIT_FAILURE);
+}
+if (PID == 0) {
+	//Cierre del descriptor de lectura en el proceso hijo
+	close(fd[0]);
+	// Enviar el mensaje a traves del cauce usando el descriptor de escritura
+	write(fd[1],mensaje,strlen(mensaje)+1);
+	exit(EXIT_SUCCESS);
+}
+else { // Estoy en el proceso padre porque PID != 0
+	//Cerrar el descriptor de escritura en el proceso padre
+	close(fd[1]);
+	//Leer datos desde el cauce.
+	numBytes= read(fd[0],buffer,sizeof(buffer));
+	printf("\nEl numero de bytes recibidos es: %d",numBytes);
+	printf("\nLa cadena enviada a traves del cauce es: %s", buffer);
+}
+
+return EXIT_SUCCESS;
+}
+```
+
+Se crea un cauce sin nombre, se crea un proceso hijo que hereda los descriptores del cauce y se cierra el descriptor de lectura en el proceso hijo y el descriptor de escritura en el proceso padre, el hijo escribe el mensaje y el padre lo lee y lo imprime por la salida estándar.
+
 
 ---
