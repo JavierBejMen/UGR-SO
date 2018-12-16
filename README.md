@@ -24,6 +24,8 @@ Memoria de las prácticas de Sistemas Operativos.
     + [Ejercicio 6](#ejer36)
     + [Ejercicio 7](#ejer37)
   + [Sesión 4](#sesion4)
+    + [Ejercicio 1](#ejer41)
+    + [Ejercicio 2](#ejer42)
 
 
 
@@ -1185,5 +1187,102 @@ int main(int argc, char *argv[]){
 
 <a name="sesion4"></a>
 ### Sesión 4
+
+<a name="ejer41"></a>
+**Ejercicio 1**. Consulte en el manual las llamadas al sistema para la creación de archivos especiales en general `mknod` y la específica para archivos *FIFO* `mkfifo`. Pruebe a ejecutar el siguiente código correspondiente a dos programas que modelan el problema del *productor/consumidor*, los cuales utilizan como mecanismo de comunicación un cauce *FIFO*. Determine en qué orden y manera se han de ejecutar los dos programas para su correcto funcionamiento y cómo queda reflejado en el sistema que estamos utilizando un cauce *FIFO*. Justifique la respuesta.
+
+Productor:
+```c
+//productorFIFO.c
+//Productor que usa mecanismo de comunicacion FIFO
+
+#include<sys/types.h>
+#include<sys/stat.h>
+#include<fcntl.h>
+#include<unistd.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<errno.h>
+#define ARCHIVO_FIFO "ComunicacionFIFO"
+
+int main(int argc, char *argv[])
+{
+int fd;
+
+//Comprobar el uso correcto del programa
+if(argc != 2) {
+printf("\nproductorFIFO: faltan argumentos (mensaje)");
+printf("\nPruebe: productorFIFO <mensaje>, donde <mensaje> es una cadena de caracteres.\n");
+exit(EXIT_FAILURE);
+}
+
+//Intentar abrir para escritura el cauce FIFO
+if( (fd=open(ARCHIVO_FIFO,O_WRONLY)) <0) {
+perror("\nError en open");
+exit(EXIT_FAILURE);
+}
+
+//Escribir en el cauce FIFO el mensaje introducido como argumento
+if( (write(fd,argv[1],strlen(argv[1])+1)) != strlen(argv[1])+1) {
+perror("\nError al escribir en el FIFO");
+exit(EXIT_FAILURE);
+}
+
+close(fd);
+return EXIT_SUCCESS;
+}
+```
+
+Consumidor:
+```c
+//consumidorFIFO.c
+//Consumidor que usa mecanismo de comunicacion FIFO.
+
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <string.h>
+#define ARCHIVO_FIFO "ComunicacionFIFO"
+
+int main(void)
+{
+int fd;
+char buffer[80];// Almacenamiento del mensaje del cliente.
+int leidos;
+
+//Crear el cauce con nombre (FIFO) si no existe
+umask(0);
+mknod(ARCHIVO_FIFO,S_IFIFO|0666,0);
+//tambi�n vale: mkfifo(ARCHIVO_FIFO,0666);
+
+//Abrir el cauce para lectura-escritura
+if ( (fd=open(ARCHIVO_FIFO,O_RDWR)) <0) {
+perror("open");
+exit(EXIT_FAILURE);
+}
+
+//Aceptar datos a consumir hasta que se env�e la cadena fin
+while(1) {
+leidos=read(fd,buffer,80);
+if(strcmp(buffer,"fin")==0) {
+close(fd);
+return EXIT_SUCCESS;
+}
+printf("\nMensaje recibido: %s\n", buffer);
+}
+
+return EXIT_SUCCESS;
+}
+```
+
+El programa consumidor primero establece la máscara de permisos para porder habilitar cualquier permiso `umask(0)`, seguidamente crea el cauce *FIFO* mediante `mknod(ARCHIVO_FIFO,S_IFIFO|0666,0)` y lo abre, entra en el bucle quedando bloqueado hasta que el programa *productor* escriba en el cauce mediante `(write(fd,argv[1],strlen(argv[1])+1)) != strlen(argv[1])+1`, abriendo dicho cauce anteriormente mediante `(fd=open(ARCHIVO_FIFO,O_WRONLY))`.
+
+<a name="ejer42"></a>
+**Ejercicio 2**.
 
 ---
