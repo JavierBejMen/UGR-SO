@@ -49,7 +49,13 @@ int main(int argc, char *argv[]){
     exit(EXIT_FAILURE);
   }
 
-  
+  //Creamos los sub-intervalos para los procesos hijoss
+  long int interval_m1, interval_m2;
+  interval_m2 = interval_i + (interval_f - interval_i)/2;
+  interval_m1 = interval_m2++;
+
+  printf("Sub-intervalo 1: [%li, %li]\nSub-intervalo 2: [%li, %li]\n",
+    interval_i, interval_m1, interval_m2, interval_f);
 
 
 
