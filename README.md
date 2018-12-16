@@ -28,6 +28,8 @@ Memoria de las prácticas de Sistemas Operativos.
     + [Ejercicio 2](#ejer42)
     + [Ejercicio 3](#ejer43)
     + [Ejercicio 4](#ejer44)
+    + [Ejercicio 5](#ejer45)
+  + [Sesión 5](#sesion5)
 
 
 
@@ -1453,5 +1455,28 @@ return EXIT_SUCCESS;
 ```
 
 Ambos programas realizan la misma función, abre un cauce y redireccionan la salida/entrada estándar a dicho cauce, solo que el primero utiliza la función `pip()`, que duplicará el cauce al descriptor mas bajo disponible, que, previamente cerrado, será la *salida/entrada* estándar, mientras que el segundo programa utiliza la función `pip2()`, a la que se le asigna explícitamente el descriptor de la *salida/entrada* estándar, cerrándola en caso de que sea necesario (que lo es).
+
+<a name="ejer45"></a>
+**Ejercicio 5**. Este ejercicio se basa en la idea de utilizar varios procesos para realizar partes de una computación en paralelo. Para ello, deberá construir un programa que siga el esquema de computación *maestro-esclavo*, en el cual existen varios procesos trabajadores (esclavos) idénticos y un único proceso que reparte trabajo y reúne resultados (maestro). Cada esclavo es capaz de realizar una computación que le asigne el maestro y enviar a este último los resultados
+para que sean mostrados en pantalla por el maestro. El ejercicio concreto a programar consistirá en el cálculo de los números primos que hay en un intervalo. Será necesario construir dos programas, maestro y esclavo. Ten en cuenta la siguiente especificación:
+ 1. El intervalo de números naturales donde calcular los número primos se pasará como argumento al programa maestro. El maestro creará dos procesos esclavos y dividirá el intervalo en dos subintervalos de igual tamaño pasando cada subintervalo como argumento a cada programa esclavo. Por ejemplo, si al maestro le proporcionamos el intervalo entre 1000 y 2000, entonces un esclavo debe calcular y devolver los números primos comprendidos en el subintervalo entre 1000 y 1500, y el otro esclavo entre 1501 y 2000. El maestro creará dos cauces sin nombre y se encargará de su redirección para comunicarse con los procesos esclavos. El maestro irá recibiendo y mostrando en pantalla (también uno a uno) los números primos calculados por los esclavos en orden creciente.
+ 2. El programa esclavo tiene como argumentos el extremo inferior y superior del intervalo sobre el que buscará números primos. Para identificar un número primo utiliza el siguiente método concreto: un número n es primo si no es divisible por ningún `k` tal que `2 < k <= sqrt(n)`, donde `sqrt` corresponde a la función de cálculo de la raíz cuadrada (consulte dicha función en el manual). El esclavo envía al maestro cada primo encontrado como un dato entero (4 bytes) que escribe en la salida estándar, la cuál se tiene que encontrar redireccionada a un cauce sin nombre. Los dos cauces sin nombre necesarios, cada uno para comunicar cada esclavo con el maestro, los creará el maestro inicialmente. Una vez que un esclavo haya calculado y enviado (uno a uno) al maestro todos los primos en su correspondiente intervalo terminará.
+
+Solución maestro:
+
+```c
+
+```
+
+Solución esclavo:
+
+```c
+
+```
+
+---
+
+<a name="sesion5"></a>
+### Sesión 5
 
 ---
