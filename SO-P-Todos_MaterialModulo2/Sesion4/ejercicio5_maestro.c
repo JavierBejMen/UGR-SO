@@ -7,13 +7,14 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<errno.h>
+#include<string.h>
 
 
 int main(int argc, char *argv[]){
 
   //Comprobamos que se pasan el número de argumentos correcto
-  if(argc > 4){
-    printf("Uso: %s <intervalo_inicio(int)> <intervalo_fin(int)> [0<n_Paralelismo<=8 : default 2]\n", argv[0]);
+  if(argc > 4 || argc < 3){
+    printf("Uso: %s <intervalo_inicio(int)> <intervalo_fin(int)> [0<n_hijos<=8 : default 2]\n", argv[0]);
     exit(EXIT_FAILURE);
   }
 
@@ -106,21 +107,45 @@ int main(int argc, char *argv[]){
       dup2(fd[i][1], STDOUT_FILENO); //Redireccionamos a la salida estándar
 
       //Ejecucion
-      
+      char param1[30], param2[30];
+      if(i == 0){
+        sprintf(param1, "%li", intervals[i]);
+        sprintf(param2, "%li", intervals[i+1]);
+      }else{
+        sprintf(param1, "%li", intervals[i]+1);
+        sprintf(param2, "%li", intervals[i+1]);
+      }
+
+      if( (execlp("/home/zes/Desktop/SO/SO-P-Todos_MaterialModulo2/Sesion4/ejercicio5_esclavo",
+      "ejercicio5_esclavo", param1, param2, (char*)NULL)) < 0 ){
+        printf("Error %d en execlp()\n", errno);
+        perror("Error en exceclp()\n");
+        exit(EXIT_FAILURE);
+      }
+
     }else{
       //Ajuste del cauce padre
       close(fd[i][1]); //Cerramos el descriptor de escritura
       dup2(fd[i][0], STDIN_FILENO); //Redireccionamos a la entrada estándar
-
       if(i == 0){
         printf("Intervalo %lu: [%li, %li] ===> hijo(%u)\n", i+1, intervals[i], intervals[i+1], PID);
       }else{
         printf("Intervalo %lu: [%li, %li] ===> hijo(%u)\n", i+1, intervals[i]+1, intervals[i+1], PID);
       }
+
+      //Recibir números y mostrarlos por consola
+      printf("Números primos:\n");
+      char buf[20];
+      for(size_t i = 0; i < 1;){
+        fgets(buf, 20, stdin);
+        if(strcmp(buf, "END\n") == 0){
+          ++i;
+        }else{
+          printf("%s", buf);
+        }
+      }
     }
   }
-
-
-
+  
   return EXIT_SUCCESS;
 }
