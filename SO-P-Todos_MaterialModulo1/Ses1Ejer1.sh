@@ -1,4 +1,5 @@
 #!/bin/bash
+# Actividad 1.1
 # decompress files
 7z x ~/Documents/UGR/SO/Fedora14-x86-root_fs.gz -o/tmp/
 7z x ~/Documents/UGR/SO/kernel32-3.0.4.gz -o/tmp/
