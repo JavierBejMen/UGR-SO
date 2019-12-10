@@ -62,7 +62,7 @@ chmod 777 kernel32-3.0.4 Fedora14-x86-root_fs mem=1024m
 
 <details>
 <summary>
-`useradd` defaults:
+useradd defaults:
 </summary>
 <p>
 
@@ -96,7 +96,7 @@ CREATE_MAIL_SPOOL=yes
 </summary>
 <p>
 
-```bash
+```console
 [root@localhost ~]# cat /etc/login.defs
 # *REQUIRED*
 #   Directory where mailboxes reside, _or_ name of file, relative to the
