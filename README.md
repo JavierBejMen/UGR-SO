@@ -299,6 +299,7 @@ Si no se especifica la opción `-r` el directorio home no se elimina, y por algu
 lastlog
 </summary>
 <p>
+
 ```console
 [root@localhost ~]# lastlog
 Username         Port     From             Latest
@@ -324,6 +325,7 @@ smmsp                                      **Never logged in**
 nohomeuser                                 **Never logged in**
 user                                       **Never logged in**
 ```
+
 </p>
 </details>
 
