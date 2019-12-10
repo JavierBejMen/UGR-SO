@@ -7,6 +7,7 @@ Memoria de las prácticas de Sistemas Operativos.
   + [Sesión 1](#sesion11)
     + [Ejercicio 1](#ejer11)
     + [Ejercicio 2](#ejer12)
+    + [Ejercicio 3](#ejer13)
 + [Módulo II](#modulo2)
   + [Sesión 1](#sesion1)
     + [Ejercicio 1](#ejer1)
@@ -251,7 +252,109 @@ user:x:500:
 
 Como podemos observar se ha asigando como uid el mínimo especificado en `/etc/login.defs`(500) ya que es el primer usuario creado, se ha creado el directorio /home para `user` y la shell por defecto es `/bin/bash`.
 
+<a name="ejer13"></a>
+**Ejercicio 3**. Creación de usuarios
+1. Utiliza el manual en línea para leer la sintaxis completa de la utilidad para creación de cuentas y crea dos o tres usuarios en tu sistema cambiando alguno de los valores por defecto.
 
+Usuario sin directorio home y con contraseña:
+```console
+[root@localhost ~]# useradd -M nohomeuser -p password
+[root@localhost ~]# ls /home/
+user
+[root@localhost ~]#
+```
+
+Usuario con directorio home especifico, guid específico y sin loggin:
+```console
+[root@localhost ~]# groupadd -g 777 -p safegroup safegroup
+[root@localhost ~]# useradd weirduser -m -d /home/user/weirdhomedir/ -l -g 777 -p weirduser
+[root@localhost ~]# ls /home/user/             
+weirdhomedir
+[root@localhost ~]#
+```
+
+2. Elimina alguno de ellos y comprueba que “rastro” ha dejado la cuenta recién eliminada en el sistema.
+
+```console
+[root@localhost ~]# userdel weirduser
+[root@localhost ~]# su weirduser
+su: user weirduser does not exist
+[root@localhost ~]# ls /home/user/
+weirdhomedir
+[root@localhost ~]# ls /home/user/weirdhomedir/
+[root@localhost ~]# ls -a /home/user/weirdhomedir/
+.  ..  .bash_logout  .bash_profile  .bashrc
+[root@localhost ~]# ls /home/
+roy user
+[root@localhost ~]# userdel -r roy
+[root@localhost ~]# ls /home/
+user
+[root@localhost ~]#
+```
+
+Si no se especifica la opción `-r` el directorio home no se elimina, y por alguna razón no se ha eliminado la entrada en lastlog para weirduser, aunque se especificó en la creación que no se incluyera en dicho log.
+
+<details>
+<summary>
+lastlog
+</summary>
+<p>
+```console
+[root@localhost ~]# lastlog
+Username         Port     From             Latest
+root             tty0                      Tue Dec 10 12:42:19 -0500 2019
+bin                                        **Never logged in**
+daemon                                     **Never logged in**
+adm                                        **Never logged in**
+lp                                         **Never logged in**
+sync                                       **Never logged in**
+shutdown                                   **Never logged in**
+halt                                       **Never logged in**
+mail                                       **Never logged in**
+uucp                                       **Never logged in**
+operator                                   **Never logged in**
+games                                      **Never logged in**
+gopher                                     **Never logged in**
+ftp                                        **Never logged in**
+nobody                                     **Never logged in**
+saslauth                                   **Never logged in**
+sshd                                       **Never logged in**
+mailnull                                   **Never logged in**
+smmsp                                      **Never logged in**
+nohomeuser                                 **Never logged in**
+user                                       **Never logged in**
+```
+</p>
+</details>
+
+3. Entra (orden su) en el sistema como uno de estos usuarios que has creado y mira qué archivos tiene en su directorio home. La orden sudo permite cambiar el modo de trabajo a modo root específicamente para ejecutar una orden con privilegios de supervisor y tras su
+ejecución continuar con los privilegios del usuario que abrió la sesión.
+
+```console
+[root@localhost ~]# su user
+[user@localhost root]$ ls -a ~/
+.  ..  .bash_history  .bash_logout  .bash_profile  .bashrc  weirdhomedir
+[user@localhost root]$ sudo ls
+[sudo] password for user:
+user is not in the sudoers file.  This incident will be reported.
+[user@localhost root]$
+```
+
+Para ganar privilegios de administrador editamos `/etc/sudoers` mediante el comando `visudo`, añadiendo la linea:
+
+```
+user	ALL=(ALL)	ALL
+```
+
+Y ahora podemos ejecutar sudo en el usuario user.
+
+```console
+[root@localhost ~]# su user
+[user@localhost root]$ sudo ls -a
+[sudo] password for user:
+.  ..  .bash_history  .bash_logout  .bash_profile  .bashrc  .cshrc  .tcshrc
+[user@localhost root]$
+```
 
 ---
 
