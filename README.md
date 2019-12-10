@@ -66,7 +66,7 @@ chmod 777 kernel32-3.0.4 Fedora14-x86-root_fs mem=1024m
 </summary>
 <p>
 
-```bash
+```console
 [root@localhost ~]# useradd -D
 GROUP=100
 HOME=/home
