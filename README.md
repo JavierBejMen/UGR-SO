@@ -3,7 +3,9 @@
 Memoria de las prácticas de Sistemas Operativos.
 
 ## Índice
-
++ [Módulo I](#modulo1)
+  + [Sesión 1](#sesion11)
+    + [Ejercicio 1](#ejer11)
 + [Módulo II](#modulo2)
   + [Sesión 1](#sesion1)
     + [Ejercicio 1](#ejer1)
@@ -32,6 +34,16 @@ Memoria de las prácticas de Sistemas Operativos.
   + [Sesión 5](#sesion5)
 
 
+
+---
+<a name="modulo1"></a>
+## Módulo I
+
+<a name="sesion11"></a>
+### Sesión I
+
+<a name="ejer11"></a>
+**Ejercicio 1**. Crea un script de bash que automatice todos los pasos vistos en este punto y que guardarás preferiblemente en tu directorio home. Al entrar de nuevo en el sistema sólo tendrás que ejecutar el script para empezar a trabajar en modo root.
 
 ---
 
