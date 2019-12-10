@@ -332,31 +332,31 @@ Como podemos observar se ha asigando como uid el mínimo especificado en `/etc/l
 3. Entra (orden su) en el sistema como uno de estos usuarios que has creado y mira qué archivos tiene en su directorio home. La orden sudo permite cambiar el modo de trabajo a modo root específicamente para ejecutar una orden con privilegios de supervisor y tras su
 ejecución continuar con los privilegios del usuario que abrió la sesión.
 
-  ```console
-  [root@localhost ~]# su user
-  [user@localhost root]$ ls -a ~/
-  .  ..  .bash_history  .bash_logout  .bash_profile  .bashrc  weirdhomedir
-  [user@localhost root]$ sudo ls
-  [sudo] password for user:
-  user is not in the sudoers file.  This incident will be reported.
-  [user@localhost root]$
-  ```
+   ```console
+   [root@localhost ~]# su user
+   [user@localhost root]$ ls -a ~/
+   .  ..  .bash_history  .bash_logout  .bash_profile  .bashrc  weirdhomedir
+   [user@localhost root]$ sudo ls
+   [sudo] password for user:
+   user is not in the sudoers file.  This incident will be reported.
+   [user@localhost root]$
+   ```
 
-  Para ganar privilegios de administrador editamos `/etc/sudoers` mediante el comando `visudo`, añadiendo la linea:
+   Para ganar privilegios de administrador editamos `/etc/sudoers` mediante el comando `visudo`, añadiendo la linea:
 
-  ```
-  user	ALL=(ALL)	ALL
-  ```
+   ```
+   user	ALL=(ALL)	ALL
+   ```
 
-  Y ahora podemos ejecutar sudo en el usuario user.
+   Y ahora podemos ejecutar sudo en el usuario user.
 
-  ```console
-  [root@localhost ~]# su user
-  [user@localhost root]$ sudo ls -a
-  [sudo] password for user:
-  .  ..  .bash_history  .bash_logout  .bash_profile  .bashrc  .cshrc  .tcshrc
-  [user@localhost root]$
-  ```
+   ```console
+   [root@localhost ~]# su user
+   [user@localhost root]$ sudo ls -a
+   [sudo] password for user:
+   .  ..  .bash_history  .bash_logout  .bash_profile  .bashrc  .cshrc  .tcshrc
+   [user@localhost root]$
+   ```
 
 ---
 
