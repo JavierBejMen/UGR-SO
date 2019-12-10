@@ -64,10 +64,12 @@ chmod 777 kernel32-3.0.4 Fedora14-x86-root_fs mem=1024m
 
 ![](https://github.com/JavierBejMen/UGR-SO/blob/master/SO-P-Todos_MaterialModulo1/UseraddDefaults.png)
 
-`/etc/login.defs`:
+
 <details>
-<summary>brief</summary>
+<summary>`/etc/login.defs`:</summary>
 <p>
+
+```bash
 [root@localhost ~]# cat /etc/login.defs
 # *REQUIRED*
 #   Directory where mailboxes reside, _or_ name of file, relative to the
@@ -126,6 +128,8 @@ USERGROUPS_ENAB yes
 
 # Use SHA512 to encrypt password.
 ENCRYPT_METHOD SHA512
+```
+
 </p>
 </details>
 
