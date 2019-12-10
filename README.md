@@ -8,6 +8,7 @@ Memoria de las prácticas de Sistemas Operativos.
     + [Ejercicio 1](#ejer11)
     + [Ejercicio 2](#ejer12)
     + [Ejercicio 3](#ejer13)
+    + [Ejercicio 4](#ejer14)
 + [Módulo II](#modulo2)
   + [Sesión 1](#sesion1)
     + [Ejercicio 1](#ejer1)
@@ -357,6 +358,59 @@ ejecución continuar con los privilegios del usuario que abrió la sesión.
    .  ..  .bash_history  .bash_logout  .bash_profile  .bashrc  .cshrc  .tcshrc
    [user@localhost root]$
    ```
+
+<a name="ejer14"></a>
+**Ejercicio 4**.Visualiza el archivo /etc/passwd e indica cual es el formato de cada línea de dicho archivo. Para ello también puedes consultar el man o info de Linux. ¿Quién es el propietario de este archivo y cuáles son sus permisos?
+
+<details>
+<summary>
+/etc/passwd
+</summary>
+<p>
+
+```console
+[root@localhost ~]# cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/spool/mail:/sbin/nologin
+uucp:x:10:14:uucp:/var/spool/uucp:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+games:x:12:100:games:/usr/games:/sbin/nologin
+gopher:x:13:30:gopher:/var/gopher:/sbin/nologin
+ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin
+nobody:x:99:99:Nobody:/:/sbin/nologin
+saslauth:x:499:499:"Saslauthd user":/var/empty/saslauth:/sbin/nologin
+sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin
+mailnull:x:47:47::/var/spool/mqueue:/sbin/nologin
+smmsp:x:51:51::/var/spool/mqueue:/sbin/nologin
+nohomeuser:x:500:500::/home/nohomeuser:/bin/bash
+user:x:501:501::/home/user:/bin/bash
+```
+
+</p>
+</details>
+
+Formato:
+
+```
+user_name:password:UID:GUID:GECOS:directory:shell
+```
+
+Permisos y propietario:
+
+```console
+[root@localhost ~]# ls -l /etc/passwd
+-rw-r--r-- 1 root root 929 Dec 10 13:33 /etc/passwd
+[root@localhost ~]#
+```
+
+
 
 ---
 
