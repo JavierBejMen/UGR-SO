@@ -273,6 +273,7 @@ weirdhomedir
 [root@localhost ~]#
 ```
 
+
 2. Elimina alguno de ellos y comprueba que “rastro” ha dejado la cuenta recién eliminada en el sistema.
 
 ```console
