@@ -66,7 +66,9 @@ chmod 777 kernel32-3.0.4 Fedora14-x86-root_fs mem=1024m
 
 
 <details>
-<summary>`/etc/login.defs`:</summary>
+<summary>
+`/etc/login.defs:`
+</summary>
 <p>
 
 ```bash
