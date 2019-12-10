@@ -275,7 +275,7 @@ Como podemos observar se ha asigando como uid el mínimo especificado en `/etc/l
 
 2. Elimina alguno de ellos y comprueba que “rastro” ha dejado la cuenta recién eliminada en el sistema.
 
-```console
+   ```console
 [root@localhost ~]# userdel weirduser
 [root@localhost ~]# su weirduser
 su: user weirduser does not exist
@@ -290,7 +290,7 @@ roy user
 [root@localhost ~]# ls /home/
 user
 [root@localhost ~]#
-```
+   ```
 
 Si no se especifica la opción `-r` el directorio home no se elimina, y por alguna razón no se ha eliminado la entrada en lastlog para weirduser, aunque se especificó en la creación que no se incluyera en dicho log.
 
