@@ -11,6 +11,7 @@ Memoria de las prácticas de Sistemas Operativos.
     + [Ejercicio 4](#ejer14)
     + [Ejercicio 5](#ejer15)
     + [Ejercicio 6](#ejer16)
+    + [Ejercicio 7](#ejer17)
 + [Módulo II](#modulo2)
   + [Sesión 1](#sesion1)
     + [Ejercicio 1](#ejer1)
@@ -470,6 +471,14 @@ user:$6$zalB6Oa5$pPPCAJi5Dd4C9/1cbfTttkfzjXLOnHX9Dqx2K0sAI1OWRHuLeBGZHwWd2psQeQz
    uid=0(root) gid=777(safegroup) groups=0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel),777(safegroup)
    [root@localhost ~]#
    ```
+
+<a name="ejer17"></a>
+**Ejercicio 7**. Utilizando la orden (find) que ya conoces para la búsqueda de archivos en el sistema de
+archivos, anota el nombre absoluto del archivo del kernel de Linux que se ha cargado en
+el sistema operativo que estás usando en el laboratorio de prácticas para acceso modo
+root.
+
+
 
 ---
 
