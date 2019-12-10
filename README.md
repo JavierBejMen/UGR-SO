@@ -255,6 +255,7 @@ Como podemos observar se ha asigando como uid el mínimo especificado en `/etc/l
 <a name="ejer13"></a>
 **Ejercicio 3**. Creación de usuarios
 1. Utiliza el manual en línea para leer la sintaxis completa de la utilidad para creación de cuentas y crea dos o tres usuarios en tu sistema cambiando alguno de los valores por defecto.
+
    Usuario sin directorio home y con contraseña:
    ```console
    [root@localhost ~]# useradd -M nohomeuser -p password
@@ -263,14 +264,14 @@ Como podemos observar se ha asigando como uid el mínimo especificado en `/etc/l
    [root@localhost ~]#
    ```
 
-Usuario con directorio home especifico, guid específico y sin loggin:
-```console
-[root@localhost ~]# groupadd -g 777 -p safegroup safegroup
-[root@localhost ~]# useradd weirduser -m -d /home/user/weirdhomedir/ -l -g 777 -p weirduser
-[root@localhost ~]# ls /home/user/             
-weirdhomedir
-[root@localhost ~]#
-```
+   Usuario con directorio home especifico, guid específico y sin loggin:
+   ```console
+   [root@localhost ~]# groupadd -g 777 -p safegroup safegroup
+   [root@localhost ~]# useradd weirduser -m -d /home/user/weirdhomedir/ -   l -g 777 -p weirduser
+   [root@localhost ~]# ls /home/user/             
+   weirdhomedir
+   [root@localhost ~]#
+   ```
 
 2. Elimina alguno de ellos y comprueba que “rastro” ha dejado la cuenta recién eliminada en el sistema.
 
