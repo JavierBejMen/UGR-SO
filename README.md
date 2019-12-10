@@ -6,6 +6,7 @@ Memoria de las prácticas de Sistemas Operativos.
 + [Módulo I](#modulo1)
   + [Sesión 1](#sesion11)
     + [Ejercicio 1](#ejer11)
+    + [Ejercicio 2](#ejer12)
 + [Módulo II](#modulo2)
   + [Sesión 1](#sesion1)
     + [Ejercicio 1](#ejer1)
@@ -160,13 +161,13 @@ ENCRYPT_METHOD SHA512
 </p>
 </details>
 
-Ahora procedemos a crear un usuario
+Ahora procedemos a crear un usuario:
 
 ```console
 [root@localhost ~]# useradd user
 ```
 
-y comprobamos que los datos se han rellenado conforme a lo establecido por defecto
+y comprobamos que los datos se han rellenado conforme a lo establecido por defecto:
 
 <details>
 <summary>
@@ -248,6 +249,7 @@ user:x:500:
 </p>
 </details>
 
+Como podemos observar se ha asigando como uid el mínimo especificado en `/etc/login.defs`(500) ya que es el primer usuario creado, se ha creado el directorio /home para `user` y la shell por defecto es `/bin/bash`.
 
 
 
