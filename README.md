@@ -9,6 +9,8 @@ Memoria de las prácticas de Sistemas Operativos.
     + [Ejercicio 2](#ejer12)
     + [Ejercicio 3](#ejer13)
     + [Ejercicio 4](#ejer14)
+    + [Ejercicio 5](#ejer15)
+    + [Ejercicio 6](#ejer16)
 + [Módulo II](#modulo2)
   + [Sesión 1](#sesion1)
     + [Ejercicio 1](#ejer1)
@@ -410,7 +412,64 @@ Permisos y propietario:
 [root@localhost ~]#
 ```
 
+<a name="ejer15"></a>
+**Ejercicio 5**. Visualiza el archivo /etc/shadow desde un usuario distinto al root ¿Te da algún problema?
+¿Sabes por qué? Intenta averiguarlo.
 
+```console
+[root@localhost ~]# su user
+[user@localhost root]$ cat /etc/shadow
+cat: /etc/shadow: Permission denied
+[user@localhost root]$ sudo cat /etc/shadow
+[sudo] password for user:
+root:$6$VObm.HM/$LgYFJgll5YPTZnBkU/3WHHMpWCPd.Q23L2U8YIBJGW0k7nDi2mpJqxR4Wit6zKbUQ.R.lxmJ9eSSGMBY1V7N5.:18240:0:99999:7:::
+bin:*:14789:0:99999:7:::
+daemon:*:14789:0:99999:7:::
+adm:*:14789:0:99999:7:::
+lp:*:14789:0:99999:7:::
+sync:*:14789:0:99999:7:::
+shutdown:*:14789:0:99999:7:::
+halt:*:14789:0:99999:7:::
+mail:*:14789:0:99999:7:::
+uucp:*:14789:0:99999:7:::
+operator:*:14789:0:99999:7:::
+games:*:14789:0:99999:7:::
+gopher:*:14789:0:99999:7:::
+ftp:*:14789:0:99999:7:::
+nobody:*:14789:0:99999:7:::
+saslauth:!!:14916::::::
+sshd:!!:14916::::::
+mailnull:!!:14916::::::
+smmsp:!!:14916::::::
+nohomeuser:password:18240:0:99999:7:::
+user:$6$zalB6Oa5$pPPCAJi5Dd4C9/1cbfTttkfzjXLOnHX9Dqx2K0sAI1OWRHuLeBGZHwWd2psQeQzcfJnuDkBwDEtijlk9AE/iD/:18240:0:99999:7:::
+[user@localhost root]$
+```
+
+<a name="ejer16"></a>
+**Ejercicio 6**. Creación de grupos
+1. Crea un par de grupos y asignáselos a algunos de los usuarios de tu sistema.
+
+   ```console
+   [root@localhost ~]# groupadd group1
+   [root@localhost ~]# groupadd group2
+   [root@localhost ~]# usermod -g group1 user
+   [root@localhost ~]# id user
+   uid=501(user) gid=778(group1) groups=778(group1)
+   [root@localhost ~]# useradd user2
+   [root@localhost ~]# usermod -G group2 user2
+   [root@localhost ~]# id user2
+   uid=502(user2) gid=502(user2) groups=502(user2),779(group2)
+   [root@localhost ~]#
+   ```
+
+2. ¿Qué información devuelve la orden id si estás conectado como root?
+
+   ```console
+   [root@localhost ~]# id
+   uid=0(root) gid=777(safegroup) groups=0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel),777(safegroup)
+   [root@localhost ~]#
+   ```
 
 ---
 
