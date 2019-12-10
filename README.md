@@ -62,7 +62,7 @@ chmod 777 kernel32-3.0.4 Fedora14-x86-root_fs mem=1024m
 
 <details>
 <summary>
-useradd defaults:
+useradd defaults
 </summary>
 <p>
 
@@ -159,6 +159,95 @@ ENCRYPT_METHOD SHA512
 
 </p>
 </details>
+
+Ahora procedemos a crear un usuario
+
+```console
+[root@localhost ~]# useradd user
+```
+
+y comprobamos que los datos se han rellenado conforme a lo establecido por defecto
+
+<details>
+<summary>
+/etc/passwd
+</summary>
+<p>
+
+```console
+[root@localhost ~]# cat /etc/passwd
+root::0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/spool/mail:/sbin/nologin
+uucp:x:10:14:uucp:/var/spool/uucp:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+games:x:12:100:games:/usr/games:/sbin/nologin
+gopher:x:13:30:gopher:/var/gopher:/sbin/nologin
+ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin
+nobody:x:99:99:Nobody:/:/sbin/nologin
+saslauth:x:499:499:"Saslauthd user":/var/empty/saslauth:/sbin/nologin
+sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin
+mailnull:x:47:47::/var/spool/mqueue:/sbin/nologin
+smmsp:x:51:51::/var/spool/mqueue:/sbin/nologin
+user:x:500:500::/home/user:/bin/bash
+```
+
+<p>
+</details>
+
+<details>
+<summary>
+/etc/group
+</summary>
+<p>
+
+```console
+[root@localhost ~]# cat /etc/group
+root:x:0:root
+bin:x:1:root,bin,daemon
+daemon:x:2:root,bin,daemon
+sys:x:3:root,bin,adm
+adm:x:4:root,adm,daemon
+tty:x:5:
+disk:x:6:root
+lp:x:7:daemon,lp
+mem:x:8:
+kmem:x:9:
+wheel:x:10:root
+mail:x:12:mail
+uucp:x:14:uucp
+man:x:15:
+games:x:20:
+gopher:x:30:
+video:x:39:
+dip:x:40:
+ftp:x:50:
+lock:x:54:
+audio:x:63:
+nobody:x:99:
+users:x:100:
+utmp:x:22:
+utempter:x:35:
+cdrom:x:11:
+tape:x:33:
+dialout:x:18:
+floppy:x:19:
+saslauth:x:499:
+sshd:x:74:
+mailnull:x:47:
+smmsp:x:51:
+user:x:500:
+```
+
+</p>
+</details>
+
 
 
 
