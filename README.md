@@ -41,6 +41,10 @@ Memoria de las prácticas de Sistemas Operativos.
 
 <a name="sesion11"></a>
 ### Sesión I
+
+<a name="ejer11"></a>
+**Ejercicio 1**. Crea un script de bash que automatice todos los pasos vistos en este punto y que guardarás preferiblemente en tu directorio home. Al entrar de nuevo en el sistema sólo tendrás que ejecutar el script para empezar a trabajar en modo root.
+
 ```bash
 #!/bin/bash
 # Actividad 1.1
@@ -53,9 +57,6 @@ cd /tmp
 chmod 777 kernel32-3.0.4 Fedora14-x86-root_fs mem=1024m
 ./kernel32-3.0.4 ubda=./Fedora14-x86-root_fs mem=1024m
 ```
-
-<a name="ejer11"></a>
-**Ejercicio 1**. Crea un script de bash que automatice todos los pasos vistos en este punto y que guardarás preferiblemente en tu directorio home. Al entrar de nuevo en el sistema sólo tendrás que ejecutar el script para empezar a trabajar en modo root.
 
 ---
 
