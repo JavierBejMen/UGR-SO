@@ -60,9 +60,34 @@ chmod 777 kernel32-3.0.4 Fedora14-x86-root_fs mem=1024m
 <a name="ejer12"></a>
 **Ejercicio 2**.Visualiza el contenido de los dos archivos anteriores y comprueba cuáles son las opciones por defecto que tendría un usuario que se creara en nuestro sistema. A continuación, crea una cuenta de usuario y visualiza el contenido de los archivos /etc/passwd y /etc/group, y el directorio /home para comprobar que los nuevos datos se han rellenado conforme a la especificación tomada de /etc/default/useradd y /etc/login.defs.
 
+<details>
+<summary>
 `useradd` defaults:
+</summary>
+<p>
 
-![](https://github.com/JavierBejMen/UGR-SO/blob/master/SO-P-Todos_MaterialModulo1/UseraddDefaults.png)
+```bash
+[root@localhost ~]# useradd -D
+GROUP=100
+HOME=/home
+INACTIVE=-1
+EXPIRE=
+SHELL=/bin/bash
+SKEL=/etc/skel
+CREATE_MAIL_SPOOL=yes
+[root@localhost ~]# cat /etc/default/useradd
+# useradd defaults file
+GROUP=100
+HOME=/home
+INACTIVE=-1
+EXPIRE=
+SHELL=/bin/bash
+SKEL=/etc/skel
+CREATE_MAIL_SPOOL=yes
+```
+
+</p>
+</details>
 
 
 <details>
