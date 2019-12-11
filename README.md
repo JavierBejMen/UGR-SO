@@ -874,6 +874,13 @@ This filesystem will be automatically checked every 28 mounts or
 </p>
 </details>
 
+<a name="ejer123"></a>
+**Ejercicio 3**. Consultando el manual en línea para la orden tune2fs responde a las siguientes preguntas:
+
+ A. ¿Cómo podrías conseguir que en el siguiente arranque del sistema se ejecutara automáticamente e2fsck sin que se haya alcanzado el máximo número de montajes?
+
+ B. ¿Cómo podrías conseguir reservar para uso exclusivo de un usuario username un número de bloques del sistema de archivos?
+
 
 
 
