@@ -622,7 +622,7 @@ párrafo para qué te sirve la información que registra cada archivo.
 <a name="sesion12"></a>
 ### Sesión II
 
-<a name="ejer121"
+<a name="ejer121"></a>
 **Ejercicio 1**. Partición de un dispositivo: “USB pen drive” o “memory stick”
 
 Primero vamos a crear un archivo de bloque con buffer `loop` al que asociaremos un archivo, simulando una unidad USB:
