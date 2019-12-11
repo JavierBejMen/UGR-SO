@@ -836,7 +836,7 @@ This filesystem will be automatically checked every 21 mounts or
 ```
 
 </p>
-<details>
+</details>
 
 <details>
 <summary>
