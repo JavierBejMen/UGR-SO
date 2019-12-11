@@ -617,7 +617,7 @@ párrafo para qué te sirve la información que registra cada archivo.
  - `/proc/filesystems`, parte del sistema de archivos `procfs`, muestra información de los systemas de archivos activos.
  - `/proc/mounts`, parte del sistema de archivos `procfs`, muestra información sobre los puntos de montaje.
 
-
+---
 
 <a name="sesion12"></a>
 ### Sesión II
