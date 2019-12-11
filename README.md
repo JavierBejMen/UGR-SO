@@ -563,15 +563,12 @@ output
 </details>
 
 <a name="ejer18"></a>
-**Ejercicio 8**. Un programa que se ejecuta en modo root, ¿dónde podría guardar la información temporal de
-forma que ésta se mantuviese entre arranques del sistema?
+**Ejercicio 8**. Un programa que se ejecuta en modo root, ¿dónde podría guardar la información temporal de forma que ésta se mantuviese entre arranques del sistema?
 
 En `/var`.
 
 <a name="ejer19"></a>
-**Ejercicio 9**. Los archivos `/etc/fstab` y `/etc/mtab` muestran información sobre los sistemas de archivos que
-se encuentran montados en el sistema. ¿Cuál es la diferencia entre la información que muestra
-cada uno de ellos?
+**Ejercicio 9**. Los archivos `/etc/fstab` y `/etc/mtab` muestran información sobre los sistemas de archivos que se encuentran montados en el sistema. ¿Cuál es la diferencia entre la información que muestra cada uno de ellos?
 
 El archivo `/etc/fstab` muesta los sistemas de archivos a montar en el arranque del sistema, punto de montaje y propiedades. Mientras que el archivo `/etc/mtab` muestra los sistemas de archivo montados en el sistema, en caso de no montar nada tras el arranque del sistema ambos archivos muestran el mismo contenido, como podemos observar:
 
@@ -939,47 +936,130 @@ proc						/proc		proc	defaults	0 0
 ```
 
 <a name="ejer126"></a>
-**Ejercicio 6**. Accede a los sitios web especializados que ofrecen software para sistemas operativos Linux y
-enumera las principales características de cada uno de ellos en base, por ejemplo, a si contiene
-software abierto y/o propietario, tipos de aplicaciones disponibles, tamaño del sitio en cuanto a
-la cantidad de software que mantiene, y otras características que considere interesantes.
+**Ejercicio 6**. Accede a los sitios web especializados que ofrecen software para sistemas operativos Linux y enumera las principales características de cada uno de ellos en base, por ejemplo, a si contiene software abierto y/o propietario, tipos de aplicaciones disponibles, tamaño del sitio en cuanto a la cantidad de software que mantiene, y otras características que considere interesantes.
 
  - [freshmeat]( http://freshmeat.net/)
  - [tucows](http://www.tucows.com/linux)
  - [sourceforge](http://sourceforge.net/)
 
- <a name="ejer127"></a>
- **Ejercicio 7**. Encuentra los archivos de configuración de YUM y explora las distintas órdenes disponibles en
-YUM ejecutándolas. En concreto, lista todos los paquetes instalados y disponibles, elimina el
-paquete instalado que te indique el profesor de prácticas, y a continuación vuelve a instalar el
-mismo paquete haciendo uso de los paquetes que se encuentran disponibles en
-/fenix/depar/lsi/so/paquetes. Para obtener acceso a este directorio del sistema de archivos
-anfitrión ejecute la siguiente órden de montaje una vez lanzado el sistema operativo User Mode
+<a name="ejer127"></a>
+**Ejercicio 7**. Encuentra los archivos de configuración de YUM y explora las distintas órdenes disponibles en YUM ejecutándolas. En concreto, lista todos los paquetes instalados y disponibles, elimina el paquete instalado que te indique el profesor de prácticas, y a continuación vuelve a instalar el mismo paquete haciendo uso de los paquetes que se encuentran disponibles en `/fenix/depar/lsi/so/paquetes`. Para obtener acceso a este directorio del sistema de archivos anfitrión ejecute la siguiente órden de montaje una vez lanzado el sistema operativo User Mode
 Linux (UML): `#> mount none /<directorio-punto-montaje> -t hostfs -o
-/fenix/depar/lsi/so/paquetes`
+/fenix/depar/lsi/so/paquetes`.
+
+```console
+[root@localhost ~]# find / -iregex .*yum.*\.conf
+/etc/yum/version-groups.conf
+/etc/yum.conf
+[root@localhost ~]# yum list
+[root@localhost ~]# yum remove package_name
+[root@localhost ~]# yum install package_name
+```
+
+
+
+
+
 
 <a name="ejer128"></a>
-**Ejercicio 8**. En primer lugar deseamos mostrar cierta metainformación acerca de uno o más paquetes ya
-instalados. Para ello debes utilizar la orden rpm con las opciones adecuadas. Utiliza el manual en
-línea si no sabes ya las opciones que debes utilizar.
-1. Muestra la información general (nombre, versión, arquitectura, grupo, descripción, etc.) y
-lista los archivos que contiene un paquete ya instalado haciendo uso de la orden rpm y un
+**Ejercicio 8**. En primer lugar deseamos mostrar cierta metainformación acerca de uno o más paquetes ya instalados. Para ello debes utilizar la orden rpm con las opciones adecuadas. Utiliza el manual en línea si no sabes ya las opciones que debes utilizar.
+
+1. Muestra la información general (nombre, versión, arquitectura, grupo, descripción, etc.) y lista los archivos que contiene un paquete ya instalado haciendo uso de la orden rpm y un
 único conjunto de opciones.
-Guía Práctica de Sistemas Operativos-40
-2. Idem que el anterior pero mostrando únicamente los archivos de configuración que
-contiene el paquete.
-3. Escribe una orden que muestre los paquetes requeridos por un paquete determinado que
-se encuentre instalado en el sistema. Escriba la orden que devuelva el mismo resultado
+
+<details>
+<summary>
+Información del paquete sudo
+</summary>
+<p>
+
+```console
+[root@localhost ~]# rpm -qil sudo
+Name        : sudo                         Relocations: (not relocatable)
+Version     : 1.7.4p5                           Vendor: Fedora Project
+Release     : 2.fc14                        Build Date: Fri Jun  3 09:44:26 2011
+Install Date: Mon Jun 27 12:29:13 2011         Build Host: x86-04.phx2.fedoraproject.org
+Group       : Applications/System           Source RPM: sudo-1.7.4p5-2.fc14.src.rpm
+Size        : 1070476                          License: ISC
+Signature   : RSA/SHA256, Fri Jun  3 04:32:40 2011, Key ID 421caddb97a1071f
+Packager    : Fedora Project
+URL         : http://www.courtesan.com/sudo/
+Summary     : Allows restricted root access for specified users
+Description :
+Sudo (superuser do) allows a system administrator to give certain
+users (or groups of users) the ability to run some (or all) commands
+as root while logging all commands and arguments. Sudo operates on a
+per-command basis.  It is not a replacement for the shell.  Features
+include: the ability to restrict what commands a user may run on a
+per-host basis, copious logging of each command (providing a clear
+audit trail of who did what), a configurable timeout of the sudo
+command, and the ability to use the same configuration file (sudoers)
+on many different machines.
+/etc/pam.d/sudo
+/etc/pam.d/sudo-i
+/etc/sudoers
+/etc/sudoers.d
+/usr/bin/sudo
+/usr/bin/sudoedit
+/usr/bin/sudoreplay
+/usr/libexec/sesh
+/usr/libexec/sudo_noexec.so
+/usr/sbin/visudo
+/usr/share/doc/sudo-1.7.4p5
+/usr/share/doc/sudo-1.7.4p5/ChangeLog
+/usr/share/doc/sudo-1.7.4p5/HISTORY
+/usr/share/doc/sudo-1.7.4p5/LICENSE
+/usr/share/doc/sudo-1.7.4p5/NEWS
+/usr/share/doc/sudo-1.7.4p5/README
+/usr/share/doc/sudo-1.7.4p5/README.LDAP
+/usr/share/doc/sudo-1.7.4p5/TROUBLESHOOTING
+/usr/share/doc/sudo-1.7.4p5/UPGRADE
+/usr/share/doc/sudo-1.7.4p5/sample.pam
+/usr/share/doc/sudo-1.7.4p5/sample.sudoers
+/usr/share/doc/sudo-1.7.4p5/sample.syslog.conf
+/usr/share/doc/sudo-1.7.4p5/schema.ActiveDirectory
+/usr/share/doc/sudo-1.7.4p5/schema.OpenLDAP
+/usr/share/doc/sudo-1.7.4p5/schema.iPlanet
+/usr/share/doc/sudo-1.7.4p5/sudoers2ldif
+/usr/share/man/man5/sudoers.5.gz
+/usr/share/man/man5/sudoers.ldap.5.gz
+/usr/share/man/man8/sudo.8.gz
+/usr/share/man/man8/sudoedit.8.gz
+/usr/share/man/man8/sudoreplay.8.gz
+/usr/share/man/man8/visudo.8.gz
+/var/db/sudo
+```
+
+</p>
+</details>
+
+
+2. Idem que el anterior pero mostrando únicamente los archivos de configuración que contiene el paquete.
+
+```console
+[root@localhost ~]# rpm -qc sudo
+/etc/pam.d/sudo
+/etc/pam.d/sudo-i
+/etc/sudoers
+```
+
+3. Escribe una orden que muestre los paquetes requeridos por un paquete determinado que se encuentre instalado en el sistema. Escriba la orden que devuelva el mismo resultado
 pero para un paquete no instalado en el sistema.
-4. Instala el paquete quota que encontrarás en el directorio de software de la asignatura
-(directorio que ya has montado en la Actividad 2.7).
-5. Instala y desinstala el paquete sysstat mostrando en pantalla también la máxima
-información posible acerca del propio proceso de eliminación del paquete.
 
+```console
+[root@localhost ~]# rpm -q --whatrequires sudo
+no package requires sudo
+```
 
+4. Instala el paquete quota que encontrarás en el directorio de software de la asignatura (directorio que ya has montado en la Actividad 2.7).
 
+5. Instala y desinstala el paquete sysstat mostrando en pantalla también la máxima información posible acerca del propio proceso de eliminación del paquete.
 
+<a name="ejer129"></a>
+**Ejercicio 9**. En esta actividad se van a presentar los pasos que necesitas llevar a cabo para establecer el sistema de cuotas de disco en Linux. El objetivo será activar el sistema de cuotas sobre el sistema de archivos tipo ext3 que has creado con anterioridad.
 
+<a name="ejer1210"></a>
+**Ejercicio 10**. Establece los límites de bloques e i-nodos para un par de usuarios del sistema UML sobre el que trabajas en el laboratorio.
 
 
 ---
