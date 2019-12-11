@@ -6,5 +6,5 @@
 
 # launch os
 cd /tmp
-chmod 777 kernel32-3.0.4 Fedora14-x86-root_fs mem=1024m
+chmod 777 kernel32-3.0.4 Fedora14-x86-root_fs
 ./kernel32-3.0.4 ubda=./Fedora14-x86-root_fs mem=1024m

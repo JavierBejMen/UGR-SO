@@ -65,11 +65,11 @@ Memoria de las prácticas de Sistemas Operativos.
 
 # launch os
 cd /tmp
-chmod 777 kernel32-3.0.4 Fedora14-x86-root_fs mem=1024m
+chmod 777 kernel32-3.0.4 Fedora14-x86-root_fs
 ./kernel32-3.0.4 ubda=./Fedora14-x86-root_fs mem=1024m
 ```
 <a name="ejer12"></a>
-**Ejercicio 2**.Visualiza el contenido de los dos archivos anteriores y comprueba cuáles son las opciones por defecto que tendría un usuario que se creara en nuestro sistema. A continuación, crea una cuenta de usuario y visualiza el contenido de los archivos /etc/passwd y /etc/group, y el directorio /home para comprobar que los nuevos datos se han rellenado conforme a la especificación tomada de /etc/default/useradd y /etc/login.defs.
+**Ejercicio 2**.Visualiza el contenido de los dos archivos anteriores y comprueba cuáles son las opciones por defecto que tendría un usuario que se creara en nuestro sistema. A continuación, crea una cuenta de usuario y visualiza el contenido de los archivos `/etc/passwd` y `/etc/group`, y el directorio `/home` para comprobar que los nuevos datos se han rellenado conforme a la especificación tomada de `/etc/default/useradd` y `/etc/login.defs`.
 
 <details>
 <summary>
@@ -338,7 +338,7 @@ Como podemos observar se ha asigando como uid el mínimo especificado en `/etc/l
    </p>
    </details>
 
-3. Entra (orden su) en el sistema como uno de estos usuarios que has creado y mira qué archivos tiene en su directorio home. La orden sudo permite cambiar el modo de trabajo a modo root específicamente para ejecutar una orden con privilegios de supervisor y tras su
+3. Entra (orden `su`) en el sistema como uno de estos usuarios que has creado y mira qué archivos tiene en su directorio home. La orden sudo permite cambiar el modo de trabajo a modo root específicamente para ejecutar una orden con privilegios de supervisor y tras su
 ejecución continuar con los privilegios del usuario que abrió la sesión.
 
    ```console
@@ -368,7 +368,7 @@ ejecución continuar con los privilegios del usuario que abrió la sesión.
    ```
 
 <a name="ejer14"></a>
-**Ejercicio 4**.Visualiza el archivo /etc/passwd e indica cual es el formato de cada línea de dicho archivo. Para ello también puedes consultar el man o info de Linux. ¿Quién es el propietario de este archivo y cuáles son sus permisos?
+**Ejercicio 4**.Visualiza el archivo `/etc/passwd` e indica cual es el formato de cada línea de dicho archivo. Para ello también puedes consultar el man o info de Linux. ¿Quién es el propietario de este archivo y cuáles son sus permisos?
 
 <details>
 <summary>
@@ -419,7 +419,7 @@ Permisos y propietario:
 ```
 
 <a name="ejer15"></a>
-**Ejercicio 5**. Visualiza el archivo /etc/shadow desde un usuario distinto al root ¿Te da algún problema?
+**Ejercicio 5**. Visualiza el archivo `/etc/shadow` desde un usuario distinto al root ¿Te da algún problema?
 ¿Sabes por qué? Intenta averiguarlo.
 
 ```console
@@ -478,7 +478,7 @@ user:$6$zalB6Oa5$pPPCAJi5Dd4C9/1cbfTttkfzjXLOnHX9Dqx2K0sAI1OWRHuLeBGZHwWd2psQeQz
    ```
 
 <a name="ejer17"></a>
-**Ejercicio 7**. Utilizando la orden (find) que ya conoces para la búsqueda de archivos en el sistema de
+**Ejercicio 7**. Utilizando la orden (`find`) que ya conoces para la búsqueda de archivos en el sistema de
 archivos, anota el nombre absoluto del archivo del kernel de Linux que se ha cargado en
 el sistema operativo que estás usando en el laboratorio de prácticas para acceso modo
 root.
@@ -561,7 +561,7 @@ forma que ésta se mantuviese entre arranques del sistema?
 En `/var`.
 
 <a name="ejer19"></a>
-**Ejercicio 9**. Los archivos /etc/fstab y /etc/mtab muestran información sobre los sistemas de archivos que
+**Ejercicio 9**. Los archivos `/etc/fstab` y `/etc/mtab` muestran información sobre los sistemas de archivos que
 se encuentran montados en el sistema. ¿Cuál es la diferencia entre la información que muestra
 cada uno de ellos?
 
@@ -599,9 +599,9 @@ none /proc/sys/fs/binfmt_misc binfmt_misc rw 0 0
 </details>
 
 <a name="ejer110"></a>
-**Ejercicio 10**. Edita el archivo /etc/fstab del sistema de archivos que estás utilizando en modo root y anota y
+**Ejercicio 10**. Edita el archivo `/etc/fstab` del sistema de archivos que estás utilizando en modo root y anota y
 describe la información que tiene registrada. Si no conoces alguna opción puedes consultar el
-manual en línea: man fstab.
+manual en línea: `man fstab`.
 
 Formato:
 ```console
@@ -609,15 +609,15 @@ fs spec : fs file : fs vfstype : fs mntops : fs freq : fs passno
 ```
 <a name="ejer111"></a>
 **Ejercicio 11**. Compara la información que contienen los cuatro archivos de texto que se han presentado en
-este apartado (/etc/fstab, /etc/mtab, /proc/filesystems y /proc/mounts). Describe en un
+este apartado (`/etc/fstab`, `/etc/mtab`, `/proc/filesystems` y `/proc/mounts`). Describe en un
 párrafo para qué te sirve la información que registra cada archivo.
 
  - `/etc/fstab`, describe la información de los sistemas de archivo a montar en el arranque del sistema.
  - `/etc/mtab`, describe la información de los sistemas de archivos actualmente montados.
- - `/proc/filesystems`, parte del sistema de archivos `procfs`, muestra información delos systemas de archivos activos.
+ - `/proc/filesystems`, parte del sistema de archivos `procfs`, muestra información de los systemas de archivos activos.
  - `/proc/mounts`, parte del sistema de archivos `procfs`, muestra información sobre los puntos de montaje.
 
----
+
 
 <a name="sesion12"></a>
 ### Sesión II
