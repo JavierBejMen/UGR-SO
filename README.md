@@ -19,6 +19,12 @@ Memoria de las prácticas de Sistemas Operativos.
   + [Sesión 2](#sesion12)
     + [Ejercicio 1](#ejer121)
     + [Ejercicio 2](#ejer122)
+    + [Ejercicio 3](#ejer123)
+    + [Ejercicio 4](#ejer124)
+    + [Ejercicio 5](#ejer125)
+    + [Ejercicio 6](#ejer126)
+    + [Ejercicio 7](#ejer127)
+    + [Ejercicio 8](#ejer128)
 + [Módulo II](#modulo2)
   + [Sesión 1](#sesion1)
     + [Ejercicio 1](#ejer1)
@@ -877,9 +883,100 @@ This filesystem will be automatically checked every 28 mounts or
 <a name="ejer123"></a>
 **Ejercicio 3**. Consultando el manual en línea para la orden tune2fs responde a las siguientes preguntas:
 
- A. ¿Cómo podrías conseguir que en el siguiente arranque del sistema se ejecutara automáticamente e2fsck sin que se haya alcanzado el máximo número de montajes?
+1. ¿Cómo podrías conseguir que en el siguiente arranque del sistema se ejecutara automáticamente e2fsck sin que se haya alcanzado el máximo número de montajes?
 
- B. ¿Cómo podrías conseguir reservar para uso exclusivo de un usuario username un número de bloques del sistema de archivos?
+   Modificando el contador de montajes manualmente a un número mayor que el número de montajes máximo. Con el comando `tune2fs -C mount-count device`.
+
+2. ¿Cómo podrías conseguir reservar para uso exclusivo de un usuario username un número de bloques del sistema de archivos?
+
+   Con el commando `tune2fs -r reserved-block-counts -u user device`.
+
+<a name="ejer124"></a>
+**Ejercicio 4**. Utiliza el manual en línea para descubrir la forma de montar nuestros SAs de manera que
+cumplas los siguientes requisitos:
+
+1. El SA etiquetado como LABEL_ext3 debe estar montado en el directorio /mnt/SA_ext3 y en modo de solo lectura.
+
+
+2. El SA etiquetado como LABEL_ext4 debe estar montado en el directorio /mnt/LABEL_ext4 y debe tener sincronizadas sus operaciones de E/S de modificación de directorios.
+
+Solución:
+
+```console
+[root@localhost ~]# mkdir /mnt/SA_ext3 /mnt/SA_ext4
+[root@localhost ~]# mount -r /dev/loop0 /mnt/SA_ext3
+[ 7782.170000] EXT3-fs: barriers not enabled
+[ 7782.170000] kjournald starting.  Commit interval 5 seconds
+[ 7782.170000] EXT3-fs (loop0): mounted filesystem with writeback data mode
+[root@localhost ~]# mount -o dirsync /dev/loop1 /mnt/SA_ext4
+[ 7885.740000] EXT4-fs (loop1): mounted filesystem with ordered data mode. Opts: (null)
+[root@localhost ~]# mount -l | grep loop
+/dev/loop0 on /mnt/SA_ext3 type ext3 (ro) [Label_ext3]
+/dev/loop1 on /mnt/SA_ext4 type ext4 (rw,dirsync) [=Label_ext4]
+```
+
+<a name="ejer125"></a>
+**Ejercicio 5**. Escribe las dos líneas necesarias en el archivo /etc/fstab para que se monten automáticamente
+nuestros dos SA en el arranque del sistema con los mismos requisitos que se han pedido en la
+Actividad 2.4.
+
+Si ya lo tenemos montado bastaria con copiar el contenido de `/etc/mtab` para ambos dispositivos en `/etc/fstab`:
+
+```console
+[root@localhost ~]# cat /etc/mtab | grep -E "loop[01]" >> /etc/fstab
+[root@localhost ~]# cat /etc/fstab
+#
+# /etc/fstab
+#
+LABEL=ROOT					/		auto	noatime		1 1
+tmpfs						/dev/shm	tmpfs	defaults	0 0
+tmp						/tmp		tmpfs	rw,mode=1777,fscontext=system_u:object_r:tmp_t:s0	0 0
+devpts						/dev/pts	devpts	gid=5,mode=620	0 0
+sysfs						/sys		sysfs	defaults	0 0
+proc						/proc		proc	defaults	0 0
+/dev/loop0 /mnt/SA_ext3 ext3 ro 0 0
+/dev/loop1 /mnt/SA_ext4 ext4 rw,dirsync 0 0
+```
+
+<a name="ejer126"></a>
+**Ejercicio 6**. Accede a los sitios web especializados que ofrecen software para sistemas operativos Linux y
+enumera las principales características de cada uno de ellos en base, por ejemplo, a si contiene
+software abierto y/o propietario, tipos de aplicaciones disponibles, tamaño del sitio en cuanto a
+la cantidad de software que mantiene, y otras características que considere interesantes.
+
+ - [freshmeat]( http://freshmeat.net/)
+ - [tucows](http://www.tucows.com/linux)
+ - [sourceforge](http://sourceforge.net/)
+
+ <a name="ejer127"></a>
+ **Ejercicio 7**. Encuentra los archivos de configuración de YUM y explora las distintas órdenes disponibles en
+YUM ejecutándolas. En concreto, lista todos los paquetes instalados y disponibles, elimina el
+paquete instalado que te indique el profesor de prácticas, y a continuación vuelve a instalar el
+mismo paquete haciendo uso de los paquetes que se encuentran disponibles en
+/fenix/depar/lsi/so/paquetes. Para obtener acceso a este directorio del sistema de archivos
+anfitrión ejecute la siguiente órden de montaje una vez lanzado el sistema operativo User Mode
+Linux (UML): `#> mount none /<directorio-punto-montaje> -t hostfs -o
+/fenix/depar/lsi/so/paquetes`
+
+<a name="ejer128"></a>
+**Ejercicio 8**. En primer lugar deseamos mostrar cierta metainformación acerca de uno o más paquetes ya
+instalados. Para ello debes utilizar la orden rpm con las opciones adecuadas. Utiliza el manual en
+línea si no sabes ya las opciones que debes utilizar.
+1. Muestra la información general (nombre, versión, arquitectura, grupo, descripción, etc.) y
+lista los archivos que contiene un paquete ya instalado haciendo uso de la orden rpm y un
+único conjunto de opciones.
+Guía Práctica de Sistemas Operativos-40
+2. Idem que el anterior pero mostrando únicamente los archivos de configuración que
+contiene el paquete.
+3. Escribe una orden que muestre los paquetes requeridos por un paquete determinado que
+se encuentre instalado en el sistema. Escriba la orden que devuelva el mismo resultado
+pero para un paquete no instalado en el sistema.
+4. Instala el paquete quota que encontrarás en el directorio de software de la asignatura
+(directorio que ya has montado en la Actividad 2.7).
+5. Instala y desinstala el paquete sysstat mostrando en pantalla también la máxima
+información posible acerca del propio proceso de eliminación del paquete.
+
+
 
 
 
