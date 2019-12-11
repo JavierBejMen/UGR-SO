@@ -622,6 +622,187 @@ párrafo para qué te sirve la información que registra cada archivo.
 <a name="sesion12"></a>
 ### Sesión II
 
+<a name="ejer121"
+**Ejercicio 1**. Partición de un dispositivo: “USB pen drive” o “memory stick”
+
+Primero vamos a crear un archivo de bloque con buffer `loop` al que asociaremos un archivo, simulando una unidad USB:
+
+```console
+[root@localhost ~]# mknod /dev/loop0 b 7 0
+[root@localhost ~]# mknod /dev/loop1 b 7 1
+[root@localhost ~]# ls --file-type -l /dev/loop0 /dev/loop1
+brw-r--r-- 1 root root 7, 0 Dec 11 11:34 /dev/loop0
+brw-r--r-- 1 root root 7, 1 Dec 11 11:34 /dev/loop1
+```
+
+Creamos los archivos:
+
+```console
+[root@localhost ~]# dd if=/dev/zero of=/root/archivo_SA20 bs=2k count=10000
+10000+0 records in
+10000+0 records out
+20480000 bytes (20 MB) copied, 0.154758 s, 132 MB/s
+[root@localhost ~]# dd if=/dev/zero of=/root/archivo_SA30 bs=3k count=10000
+10000+0 records in
+10000+0 records out
+30720000 bytes (31 MB) copied, 0.174305 s, 176 MB/s
+[root@localhost ~]# ls -lhs /root/archivo_SA20 /root/archivo_SA30
+20M -rw-r--r-- 1 root root 20M Dec 11 11:43 /root/archivo_SA20
+30M -rw-r--r-- 1 root root 30M Dec 11 11:44 /root/archivo_SA30
+```
+
+Finalmente asociamos al dispositivo loop:
+```console
+[root@localhost ~]# losetup /dev/loop0 /root/archivo_SA20
+[root@localhost ~]# losetup /dev/loop1 /root/archivo_SA30
+[root@localhost ~]# fdisk -l /dev/loop0 /dev/loop1
+
+Disk /dev/loop0: 20 MB, 20480000 bytes
+255 heads, 63 sectors/track, 2 cylinders, total 40000 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x00000000
+
+Disk /dev/loop0 doesn't contain a valid partition table
+
+Disk /dev/loop1: 30 MB, 30720000 bytes
+255 heads, 63 sectors/track, 3 cylinders, total 60000 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x00000000
+
+Disk /dev/loop1 doesn't contain a valid partition table
+```
+
+Creamos una tabla de particiones vacias tipo DOS en ambos dispositivos, y añadimos una particion en cada uno:
+
+<details>
+<summary>
+loop0
+</summary>
+<p>
+
+```console
+[root@localhost ~]# fdisk /dev/loop0
+
+Command (m for help): o
+Building a new DOS disklabel with disk identifier 0x4fcd81cf.
+Changes will remain in memory only, until you decide to write them.
+After that, of course, the previous content won't be recoverable.
+
+Warning: invalid flag 0x0000 of partition table 4 will be corrected by w(rite)
+
+Command (m for help): n
+Command action
+   e   extended
+   p   primary partition (1-4)
+p
+Partition number (1-4, default 1):
+Using default value 1
+First sector (2048-39999, default 2048):
+Using default value 2048
+Last sector, +sectors or +size{K,M,G} (2048-39999, default 39999):
+Using default value 39999
+
+Command (m for help): t
+Selected partition 1
+Hex code (type L to list codes): 83
+
+Command (m for help): w
+The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+
+WARNING: Re-reading the partition table failed with error 22: Invalid argument.
+The kernel still uses the old table. The new table will be used at
+the next reboot or after you run partprobe(8) or kpartx(8)
+Syncing disks.
+```
+
+</p>
+</details>
+
+<details>
+<summary>
+loop1
+</summary>
+<p>
+
+```console
+[root@localhost ~]# fdisk /dev/loop1
+
+Command (m for help): o
+Building a new DOS disklabel with disk identifier 0xffd4be79.
+Changes will remain in memory only, until you decide to write them.
+After that, of course, the previous content won't be recoverable.
+
+Warning: invalid flag 0x0000 of partition table 4 will be corrected by w(rite)
+
+Command (m for help): n
+Command action
+   e   extended
+   p   primary partition (1-4)
+p
+Partition number (1-4, default 1):
+Using default value 1
+First sector (2048-59999, default 2048):
+Using default value 2048
+Last sector, +sectors or +size{K,M,G} (2048-59999, default 59999):
+Using default value 59999
+
+Command (m for help): t
+Selected partition 1
+Hex code (type L to list codes): 83
+
+Command (m for help): w
+The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+
+WARNING: Re-reading the partition table failed with error 22: Invalid argument.
+The kernel still uses the old table. The new table will be used at
+the next reboot or after you run partprobe(8) or kpartx(8)
+Syncing disks.
+[root@localhost ~]#
+```
+
+</p>
+</details>
+
+Obtieniendo como resultado lo siguiente:
+```console
+[root@localhost ~]# fdisk -l /dev/loop0 /dev/loop1
+
+Disk /dev/loop0: 20 MB, 20480000 bytes
+65 heads, 38 sectors/track, 16 cylinders, total 40000 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x4fcd81cf
+
+      Device Boot      Start         End      Blocks   Id  System
+/dev/loop0p1            2048       39999       18976   83  Linux
+
+Disk /dev/loop1: 30 MB, 30720000 bytes
+188 heads, 24 sectors/track, 13 cylinders, total 60000 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0xffd4be79
+
+      Device Boot      Start         End      Blocks   Id  System
+/dev/loop1p1            2048       59999       28976   83  Linux
+[root@localhost ~]#
+```
+
+
+
+
+
+
+
 ---
 
 <a name="modulo2"></a>
