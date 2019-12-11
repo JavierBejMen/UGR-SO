@@ -17,6 +17,8 @@ Memoria de las prácticas de Sistemas Operativos.
     + [Ejercicio 10](#ejer110)
     + [Ejercicio 11](#ejer111)
   + [Sesión 2](#sesion12)
+    + [Ejercicio 1](#ejer121)
+    + [Ejercicio 2](#ejer122)
 + [Módulo II](#modulo2)
   + [Sesión 1](#sesion1)
     + [Ejercicio 1](#ejer1)
@@ -796,8 +798,81 @@ Disk identifier: 0xffd4be79
 /dev/loop1p1            2048       59999       28976   83  Linux
 [root@localhost ~]#
 ```
+<a name="ejer122"></a>
+**Ejercicio 2**. El objetivo es simplemente formatear lógicamente las particiones creadas con anterioridad de
+forma consistente con el tipo de SA que se estableció que iba a ser alojado. En la primera
+partición crearemos un SA de tipo ext3 y en la segunda un ext4.
 
+<details>
+<summary>
+ext3
+</sumary>
+<p>
 
+```console
+root@localhost ~]# mke2fs -j /dev/loop0 -L Label_ext3
+mke2fs 1.41.12 (17-May-2010)
+Filesystem label=Label_ext3
+OS type: Linux
+Block size=1024 (log=0)
+Fragment size=1024 (log=0)
+Stride=0 blocks, Stripe width=0 blocks
+5016 inodes, 20000 blocks
+1000 blocks (5.00%) reserved for the super user
+First data block=1
+Maximum filesystem blocks=20709376
+3 block groups
+8192 blocks per group, 8192 fragments per group
+1672 inodes per group
+Superblock backups stored on blocks:
+	8193
+
+Writing inode tables: done                            
+Creating journal (1024 blocks): done
+Writing superblocks and filesystem accounting information: done
+
+This filesystem will be automatically checked every 21 mounts or
+180 days, whichever comes first.  Use tune2fs -c or -i to override.
+```
+
+</p>
+<details>
+
+<details>
+<summary>
+ext4
+</summary>
+<p>
+
+```console
+[root@localhost ~]# mke2fs -t ext4 /dev/loop1 -L=Label_ext4
+mke2fs 1.41.12 (17-May-2010)
+Filesystem label==Label_ext4
+OS type: Linux
+Block size=1024 (log=0)
+Fragment size=1024 (log=0)
+Stride=0 blocks, Stripe width=0 blocks
+7520 inodes, 30000 blocks
+1500 blocks (5.00%) reserved for the super user
+First data block=1
+Maximum filesystem blocks=30932992
+4 block groups
+8192 blocks per group, 8192 fragments per group
+1880 inodes per group
+Superblock backups stored on blocks:
+	8193, 24577
+
+Writing inode tables: done                            
+Creating journal (1024 blocks): done
+Writing superblocks and filesystem accounting information: done
+
+This filesystem will be automatically checked every 28 mounts or
+180 days, whichever comes first.  Use tune2fs -c or -i to override.
+[root@localhost ~]#
+```
+
+</p>
+</details>
 
 
 
