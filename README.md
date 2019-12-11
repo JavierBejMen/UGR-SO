@@ -806,7 +806,7 @@ partición crearemos un SA de tipo ext3 y en la segunda un ext4.
 <details>
 <summary>
 ext3
-</sumary>
+</summary>
 <p>
 
 ```console
