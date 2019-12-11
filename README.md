@@ -12,6 +12,11 @@ Memoria de las prácticas de Sistemas Operativos.
     + [Ejercicio 5](#ejer15)
     + [Ejercicio 6](#ejer16)
     + [Ejercicio 7](#ejer17)
+    + [Ejercicio 8](#ejer18)
+    + [Ejercicio 9](#ejer19)
+    + [Ejercicio 10](#ejer110)
+    + [Ejercicio 11](#ejer111)
+  + [Sesión 2](#sesion12)
 + [Módulo II](#modulo2)
   + [Sesión 1](#sesion1)
     + [Ejercicio 1](#ejer1)
@@ -549,9 +554,73 @@ output
 </p>
 </details>
 
+<a name="ejer18"></a>
+**Ejercicio 8**. Un programa que se ejecuta en modo root, ¿dónde podría guardar la información temporal de
+forma que ésta se mantuviese entre arranques del sistema?
 
+En `/var`.
 
+<a name="ejer19"></a>
+**Ejercicio 9**. Los archivos /etc/fstab y /etc/mtab muestran información sobre los sistemas de archivos que
+se encuentran montados en el sistema. ¿Cuál es la diferencia entre la información que muestra
+cada uno de ellos?
 
+El archivo `/etc/fstab` muesta los sistemas de archivos a montar en el arranque del sistema, punto de montaje y propiedades. Mientras que el archivo `/etc/mtab` muestra los sistemas de archivo montados en el sistema, en caso de no montar nada tras el arranque del sistema ambos archivos muestran el mismo contenido, como podemos observar:
+
+<details>
+<summary>
+contenido
+</summary>
+<p>
+
+```console
+[root@localhost ~]# cat /etc/fstab
+#
+# /etc/fstab
+#
+LABEL=ROOT					/		auto	noatime		1 1
+tmpfs						/dev/shm	tmpfs	defaults	0 0
+tmp						/tmp		tmpfs	rw,mode=1777,fscontext=system_u:object_r:tmp_t:s0	0 0
+devpts						/dev/pts	devpts	gid=5,mode=620	0 0
+sysfs						/sys		sysfs	defaults	0 0
+proc						/proc		proc	defaults	0 0
+[root@localhost ~]# cat /etc/mtab  
+LABEL=ROOT / auto rw,noatime 0 0
+proc /proc proc rw 0 0
+sysfs /sys sysfs rw 0 0
+devpts /dev/pts devpts rw,gid=5,mode=620 0 0
+tmpfs /dev/shm tmpfs rw 0 0
+/tmp /tmp tmpfs rw,mode=1777 0 0
+none /proc/sys/fs/binfmt_misc binfmt_misc rw 0 0
+[root@localhost ~]#
+```
+
+</p>
+</details>
+
+<a name="ejer110"></a>
+**Ejercicio 10**. Edita el archivo /etc/fstab del sistema de archivos que estás utilizando en modo root y anota y
+describe la información que tiene registrada. Si no conoces alguna opción puedes consultar el
+manual en línea: man fstab.
+
+Formato:
+```console
+fs spec : fs file : fs vfstype : fs mntops : fs freq : fs passno
+```
+<a name="ejer111"></a>
+**Ejercicio 11**. Compara la información que contienen los cuatro archivos de texto que se han presentado en
+este apartado (/etc/fstab, /etc/mtab, /proc/filesystems y /proc/mounts). Describe en un
+párrafo para qué te sirve la información que registra cada archivo.
+
+ - `/etc/fstab`, describe la información de los sistemas de archivo a montar en el arranque del sistema.
+ - `/etc/mtab`, describe la información de los sistemas de archivos actualmente montados.
+ - `/proc/filesystems`, parte del sistema de archivos `procfs`, muestra información delos systemas de archivos activos.
+ - `/proc/mounts`, parte del sistema de archivos `procfs`, muestra información sobre los puntos de montaje.
+
+---
+
+<a name="sesion12"></a>
+### Sesión II
 
 ---
 
