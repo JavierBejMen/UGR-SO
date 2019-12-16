@@ -1102,28 +1102,28 @@ orden:
 <a name="ejer132"></a>
 **Ejercicio 2**. Prioridad de los procesos
 1. Crea un script o guión shell que realice un ciclo de un número variable de iteraciones en el que se hagan dos cosas: una operación aritmética y el incremento de una variable. Cuando terminen las iteraciones escribirá en pantalla un mensaje indicando el valor actual de la variable. Este guión debe tener un argumento que es el número de iteraciones que va a realizar. Por ejemplo, si el script se llama prueba_procesos, ejecutaríamos: `# prueba_procesos 1000` el valor de la variable es 1000
+   
+  <details>
+  <summary>
+  prueba_processos
+  </summary>
+  <p>
 
-<details>
-<summary>
-prueba_processos
-</summary>
-<p>
+  ```bash
+  #!/bin/bash
+  #Actividad 2
 
-```bash
-#!/bin/bash
-#Actividad 2
+  count=0
 
-count=0
+  while [ $count -lt $1 ]; do
+    let count=count+1
+    let i=54*3
+  done
 
-while [ $count -lt $1 ]; do
-  let count=count+1
-  let i=54*3
-done
-
-echo $count
-```
-</p>
-</details>
+  echo $count
+  ```
+  </p>
+  </details>
 
 2. Ejecuta el guión anterior varias veces en background (segundo plano) y comprueba su prioridad inicial. Cambia la prioridad de dos de ellos, a uno se la aumentas y a otro se la disminuyes, ¿cómo se comporta el sistema para estos procesos?
    ```console
