@@ -1342,9 +1342,9 @@ Archivos bash:
 2. ¿Cuántos inodos se están usando en la partición raíz? ¿Cuántos nuevos archivos se podrían crear en esta partición?
    ```console
    [root@localhost ~]# df -i /
-  Filesystem            Inodes   IUsed   IFree IUse% Mounted on
-  LABEL=ROOT             65536   14665   50871   23% /
-  ```
+   Filesystem            Inodes   IUsed   IFree IUse% Mounted on
+   LABEL=ROOT             65536   14665   50871   23% /
+   ```
 3. ¿Cuál es el tamaño del directorio /etc? ¿Y el del directorio /var? Compara estos tamaños con los de los directorios /bin, /usr y /lib. Anota brevemente tus conclusiones.
    ```console
    [root@localhost ~]# du -ch /etc 2>&1 | grep -v "cannot acces" | tail -n 1
