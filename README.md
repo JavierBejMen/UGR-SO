@@ -31,6 +31,8 @@ Memoria de las prácticas de Sistemas Operativos.
     + [Ejercicio 1](#ejer131)
     + [Ejercicio 2](#ejer132)
     + [Ejercicio 3](#ejer133)
+    + [Ejercicio 4](#ejer134)
+    + [Ejercicio 5](#ejer135)
 + [Módulo II](#modulo2)
   + [Sesión 1](#sesion1)
     + [Ejercicio 1](#ejer1)
@@ -1102,7 +1104,7 @@ orden:
 <a name="ejer132"></a>
 **Ejercicio 2**. Prioridad de los procesos
 1. Crea un script o guión shell que realice un ciclo de un número variable de iteraciones en el que se hagan dos cosas: una operación aritmética y el incremento de una variable. Cuando terminen las iteraciones escribirá en pantalla un mensaje indicando el valor actual de la variable. Este guión debe tener un argumento que es el número de iteraciones que va a realizar. Por ejemplo, si el script se llama prueba_procesos, ejecutaríamos: `# prueba_procesos 1000` el valor de la variable es 1000
-   
+
   <details>
   <summary>
   prueba_processos
@@ -1164,7 +1166,39 @@ orden:
 <a name="ejer133"></a>
 **Ejercicio 3**. Jerarquía e información de procesos
 1. La orden pstree muestra el árbol de procesos que hay en ejecución. Comprueba que la jerarquía mostrada es correcta haciendo uso de la orden ps y de los valores “PID" y “PPID" de cada proceso.
+
+   Ejecutamos `pstree -p` para obtener el arbol de procesos con el PID de cada proceso y luego ejecutamos `ps --ppid PID` para ver que los hijos del proceso PID son los mísmos mostrados en la primera orden.
+
 2. Ejecuta la orden ps con la opción -A, ¿qué significa que un proceso tenga un carácter “?” en la columna etiquetada como TTY?
+
+  Que la entrada estandard de dicho proceso no está asociada a ningún terminal.
+
+<a name="ejer134"></a>
+**Ejercicio 4**. Estadísticas de recursos del sistema
+
+```console
+[x@x ~]$ mpstat
+Linux x.x.x-x (x) 	12/16/2019 	_x86_64_	(8 CPU)
+
+05:18:24 PM  CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle
+05:18:24 PM  all   10.88    0.03    3.15    1.02    0.33   0.11      0.00    0.00    0.00   84.47
+```
+1. ¿Qué porcentaje de tiempo de CPU se ha usado para atender interrupciones hardware?
+   0.33%
+
+2. ¿Y qué porcentaje en tratar interrupciones software?
+   0.11%
+
+3. ¿Cuánto espacio de swap está libre y cuánto ocupado?
+    ```console
+    [zes@zesarch ~]$ free -m
+              total        used        free      shared  buff/cache   available
+   Mem:           7882        2084        4703          83        1093        5466
+   Swap:          8191           0        8191
+   ```
+
+<a name="ejer135"></a>
+**Ejercicio 5**. Explora las opciones de las que consta la orden free prestando especial atención a las diferentes unidades de medida según las que puede informar acerca de memoria. Además, compare los resultados con los obtenidos usando la orden watch.
 
 ---
 
