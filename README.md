@@ -1200,6 +1200,23 @@ Linux x.x.x-x (x) 	12/16/2019 	_x86_64_	(8 CPU)
 <a name="ejer135"></a>
 **Ejercicio 5**. Explora las opciones de las que consta la orden free prestando especial atención a las diferentes unidades de medida según las que puede informar acerca de memoria. Además, compare los resultados con los obtenidos usando la orden watch.
 
+```console
+[x@x UGR-SO]$ free -h
+              total        used        free      shared  buff/cache   available
+Mem:          7.7Gi       2.1Gi       4.5Gi       101Mi       1.1Gi       5.3Gi
+Swap:         8.0Gi          0B       8.0Gi
+[x@x UGR-SO]$ free -k
+              total        used        free      shared  buff/cache   available
+Mem:        8071264     2182668     4736280      103756     1152316     5531760
+Swap:       8388604           0     8388604
+[x@x UGR-SO]$ free -b
+              total        used        free      shared  buff/cache   available
+Mem:     8264974336  2234593280  4850401280   106246144  1179979776  5664083968
+Swap:    8589930496           0  8589930496
+```
+
+Con la orden `watch` se muestra en tiempo real.
+
 ---
 
 <a name="modulo2"></a>
