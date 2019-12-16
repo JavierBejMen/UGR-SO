@@ -27,6 +27,10 @@ Memoria de las prácticas de Sistemas Operativos.
     + [Ejercicio 8](#ejer128)
     + [Ejercicio 9](#ejer129)
     + [Ejercicio 10](#ejer1210)
+  + [Sesión 3](#sesion13)
+    + [Ejercicio 1](#ejer131)
+    + [Ejercicio 2](#ejer132)
+    + [Ejercicio 3](#ejer133)
 + [Módulo II](#modulo2)
   + [Sesión 1](#sesion1)
     + [Ejercicio 1](#ejer1)
@@ -1079,6 +1083,88 @@ orden:
 <a name="ejer1210"></a>
 **Ejercicio 10**. Establece los límites de bloques e i-nodos para un par de usuarios del sistema UML sobre el que trabajas en el laboratorio.
 
+---
+
+<a name="sesion13"></a>
+### Sesión III
+
+<a name="ejer131"></a>
+**Ejericio 1**. Responde a las siguientes cuestiones y especifica, para cada una, la opción que has utilizado (para ello utiliza man y consulta las opciones de las órdenes anteriormente vistas:
+1. ¿Cuánto tiempo lleva en marcha el sistema?
+2. ¿Cuántos usuarios hay trabajando?
+3. ¿Cuál es la carga media del sistema en los últimos 15 minutos?
+```console
+[root@localhost ~]# uptime
+05:47:40 up 20 min,  1 user,  load average: 0.00, 0.00, 0.00
+[root@localhost ~]#
+```
+
+<a name="ejer132"></a>
+**Ejercicio 2**. Prioridad de los procesos
+1. Crea un script o guión shell que realice un ciclo de un número variable de iteraciones en el que se hagan dos cosas: una operación aritmética y el incremento de una variable. Cuando terminen las iteraciones escribirá en pantalla un mensaje indicando el valor actual de la variable. Este guión debe tener un argumento que es el número de iteraciones que va a realizar. Por ejemplo, si el script se llama prueba_procesos, ejecutaríamos: `# prueba_procesos 1000` el valor de la variable es 1000
+
+<details>
+<summary>
+prueba_processos
+</summary>
+<p>
+
+```bash
+#!/bin/bash
+#Actividad 2
+
+count=0
+
+while [ $count -lt $1 ]; do
+  let count=count+1
+  let i=54*3
+done
+
+echo $count
+```
+</p>
+</details>
+
+2. Ejecuta el guión anterior varias veces en background (segundo plano) y comprueba su prioridad inicial. Cambia la prioridad de dos de ellos, a uno se la aumentas y a otro se la disminuyes, ¿cómo se comporta el sistema para estos procesos?
+   ```console
+   [x@x UGR-SO]$ sh SO-P-Todos_MaterialModulo1/Ses3Ejer2.sh 1000000 &
+   [1] 15230
+   [x@x UGR-SO]$ top -p 15230
+
+   top - 12:14:47 up 57 min,  1 user,  load average: 0.77, 0.88, 0.54
+   Tasks:   1 total,   1 running,   0 sleeping,   0 stopped,   0 zombie
+   %Cpu(s):  8.7 us,  4.0 sy,  0.0 ni, 87.1 id,  0.0 wa,  0.1 hi,  0.0 si,  0.0 st
+   MiB Mem :   7882.1 total,   2798.3 free,   2234.6 used,   2849.2 buff/cache
+   MiB Swap:   8192.0 total,   8192.0 free,      0.0 used.   4025.7 avail Mem
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                        
+    15230 x       20   0    7124   2856   2516 R  99.7   0.0   0:11.53 sh   
+    ```
+
+    Tiene prioridad 20 por defecto. El sistema prioriza el script lanzado con mayor prioridad, menor número.
+
+3. Obtén los tiempos de finalización de cada uno de los guiones del apartado anterior.
+   ```console
+   [x@x UGR-SO]$ time nice -n 10 sh SO-P-Todos_MaterialModulo1/Ses3Ejer2.sh 900000 &
+   [1] 15668
+   [x@x UGR-SO]$ time nice -n 5 sh SO-P-Todos_MaterialModulo1/Ses3Ejer2.sh 900004 &
+   [2] 15670
+   [x@x UGR-SO]$ 900000
+
+   real	0m11.628s
+   user	0m7.835s
+   sys	0m3.730s
+   900004
+
+   real	0m12.048s
+   user	0m8.060s
+   sys	0m3.929s
+   ```
+
+<a name="ejer133"></a>
+**Ejercicio 3**. Jerarquía e información de procesos
+1. La orden pstree muestra el árbol de procesos que hay en ejecución. Comprueba que la jerarquía mostrada es correcta haciendo uso de la orden ps y de los valores “PID" y “PPID" de cada proceso.
+2. Ejecuta la orden ps con la opción -A, ¿qué significa que un proceso tenga un carácter “?” en la columna etiquetada como TTY?
 
 ---
 
