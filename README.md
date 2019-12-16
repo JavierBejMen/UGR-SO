@@ -1058,6 +1058,22 @@ no package requires sudo
 <a name="ejer129"></a>
 **Ejercicio 9**. En esta actividad se van a presentar los pasos que necesitas llevar a cabo para establecer el sistema de cuotas de disco en Linux. El objetivo será activar el sistema de cuotas sobre el sistema de archivos tipo ext3 que has creado con anterioridad.
 
+1. Editar el archivo `/etc/fstab` y activar el sistema de cuotas de usuario para el SA tipo ext3. Busca cómo se especifica esta opción en el manual en línea. Una ayuda para la búsqueda es que la realices sobre la orden mount y recuerdes que las opciones de montaje vienen especificadas en los apartados: FILESYSTEM INDEPENDENT MOUNT OPTIONS y FILESYSTEM SPECIFIC MOUNT OPTIONS.
+
+   Añadimos el keyword `usrquota` en las opciones de `/etc/fstab`.
+
+2. Montar de nuevo el SA en el espacio de nombres para que se active la opción previamente establecida. Usa la siguiente orden:
+   `#> mount -o remount <directorio_punto_de_montaje>`
+3. Crear el archivo que permite llevar el control de cuotas de usuario para el SA. El nombre de este archivo es aquota.user. Para ello utiliza la siguiente orden:
+   `#> quotacheck -nm <directorio_punto_de_montaje>`
+4. Ahora procedemos a activar el sistema de control de cuotas de usuario. Para ello ejecuta la
+orden:
+   `#> quotaon -a`
+5. Ahora solo falta editar la cuota para cada usuario del sistema mediante la siguiente orden. En este caso, establece los parámetros para cada usuario existente. Puede ser buena idea utilizar el archivo `/etc/passwd` para localizar los nombres.
+   `#> edquota username`
+6. Para finalizar estableceremos el periodo de gracia para el límite soft.
+   `#> edquota -t`
+
 <a name="ejer1210"></a>
 **Ejercicio 10**. Establece los límites de bloques e i-nodos para un par de usuarios del sistema UML sobre el que trabajas en el laboratorio.
 
