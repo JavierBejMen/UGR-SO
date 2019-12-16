@@ -25,6 +25,8 @@ Memoria de las prácticas de Sistemas Operativos.
     + [Ejercicio 6](#ejer126)
     + [Ejercicio 7](#ejer127)
     + [Ejercicio 8](#ejer128)
+    + [Ejercicio 9](#ejer129)
+    + [Ejercicio 10](#ejer1210)
 + [Módulo II](#modulo2)
   + [Sesión 1](#sesion1)
     + [Ejercicio 1](#ejer1)
