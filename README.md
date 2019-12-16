@@ -1264,7 +1264,7 @@ Archivos bash:
 ```
 
 </p>
-<details>
+</details>
 
 <details>
 <summary>
