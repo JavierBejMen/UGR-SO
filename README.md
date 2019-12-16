@@ -33,6 +33,11 @@ Memoria de las prácticas de Sistemas Operativos.
     + [Ejercicio 3](#ejer133)
     + [Ejercicio 4](#ejer134)
     + [Ejercicio 5](#ejer135)
+    + [Ejercicio 6](#ejer136)
+    + [Ejercicio 7](#ejer137)
+    + [Ejercicio 8](#ejer138)
+    + [Ejercicio 9](#ejer139)
+    + [Ejercicio 10](#ejer1310)
 + [Módulo II](#modulo2)
   + [Sesión 1](#sesion1)
     + [Ejercicio 1](#ejer1)
@@ -1216,6 +1221,155 @@ Swap:    8589930496           0  8589930496
 ```
 
 Con la orden `watch` se muestra en tiempo real.
+
+<a name="ejer136"></a>
+**Ejercicio 6**. Intente reproducir el escenario justo descrito anteriormente supervisando la actividad del sistema mediante la ejecución periódica de vmstat tal cual se ha descrito, y proporcione como muestra la salida almacenada en un archivo de texto.
+```console
+[x@x UGR-SO]$ vmstat -w
+procs -----------------------memory---------------------- ---swap-- -----io---- -system-- --------cpu--------
+ r  b         swpd         free         buff        cache   si   so    bi    bo   in   cs  us  sy  id  wa  st
+ 0  0            0      4701700        62756      1099592    0    0    92    11  120  293   2   1  97   0   0
+```
+
+<a name="ejer137"></a>
+**Ejercicio 7**. Anota al menos dos nombres de archivo de dispositivo de bloques y dos nombres de dispositivo de caracteres de tu sistema UML. Anota los nombres de los archivos ocultos de tu directorio de inicio como usuario root que tienen relación con el intérprete de órdenes que tienes asignado por defecto. Ahora efectúa la misma tarea pero en una consola de terminal del sistema Ubuntu que arrancas inicialmente en el laboratorio de prácticas. ¿Qué diferencias encuentras entre los nombres de los archivos?
+
+<details>
+<summary>
+UML
+</summary>
+<p>
+
+Archivos de bloque:
+```console
+[root@localhost ~]# ls -l $(find / -type b -regex ".*" | head -n 2)
+brw-r----- 1 root disk 7, 1 Nov 25  2010 /lib/udev/devices/loop1
+brw-r----- 1 root disk 7, 6 Nov 25  2010 /lib/udev/devices/loop6
+```
+
+Archivos de caracteres:
+```console
+[root@localhost ~]# ls -l $(find / -type c -regex ".*" | head -n 2)
+crw-rw---- 1 root lp 6, 1 Nov 25  2010 /lib/udev/devices/lp1
+crw-rw---- 1 root lp 6, 3 Nov 25  2010 /lib/udev/devices/lp3
+```
+
+Archivos bash:
+```console
+[root@localhost ~]# ls -la | grep -E .*bash.*
+-rw-------  1 root root   53 Sep 13  2011 .bash_history
+-rw-r--r--  1 root root   18 Mar 30  2009 .bash_logout
+-rw-r--r--  1 root root  176 Mar 30  2009 .bash_profile
+-rw-r--r--  1 root root  176 Sep 22  2004 .bashrc
+```
+
+</p>
+<details>
+
+<details>
+<summary>
+Host OS
+</summary>
+<p>
+
+Archivos de bloque:
+```console
+[x@x ~]$ ls -l $(find / -type b -regex ".*" | head -n 2)
+brw-rw----  1 root disk     8, 16 Dec 16 18:08 /dev/sdb
+brw-rw----+ 1 root optical 11,  0 Dec 16 17:17 /dev/sr0
+```
+
+Archivos de caracteres:
+```console
+[x@x ~]$ ls -l $(find / -type c -regex ".*" | head -n 2)
+crw-rw-rw- 1 root root 195,   0 Dec 16 17:17 /dev/nvidia0
+crw-rw-rw- 1 root root 195, 254 Dec 16 17:17 /dev/nvidia-modeset
+```
+
+Archivos bash:
+```console
+[x@x ~]$ ls -la | grep -E .*bash.*
+-rw-------  1 x  x  10489 Dec 16 17:17 .bash_history
+-rw-r--r--  1 x  x     21 Nov 13 18:31 .bash_logout
+-rw-r--r--  1 x  x     57 Nov 13 18:31 .bash_profile
+-rw-r--r--  1 x  x    141 Nov 13 18:31 .bashrc
+```
+
+</p>
+</details>
+
+<a name="ejer138"></a>
+**Ejercicio 8**. Conocemos la sintaxis de la orden para obtener un listado en formato largo (“long listing format”). Manteniendo la opción de listado largo añade las opciones que sean necesarias para obtener un listado largo con las siguientes especificaciones:
+- Que contenga el campo “access time” de los archivos del directorio especificado y que esté ordenado por dicho campo.
+   ```console
+   [root@localhost ~]# ls -ltau
+   total 32
+   -rw-------  1 root root   53 Aug 31  2011 .bash_history
+   -rw-r--r--  1 root root  176 Aug 31  2011 .bashrc
+   dr-xr-x---  2 root root 4096 Apr  8  2011 .
+   dr-xr-xr-x 22 root root 4096 Apr  8  2011 ..
+   -rw-r--r--  1 root root   18 Mar 30  2009 .bash_logout
+   -rw-r--r--  1 root root  176 Mar 30  2009 .bash_profile
+   -rw-r--r--  1 root root  129 Dec  3  2004 .tcshrc
+   -rw-r--r--  1 root root  100 Sep 22  2004 .cshrc
+   ```
+- Que contenga el campo “ctime” de los archivos del directorio especificado y que esté ordenado por dicho campo. Para más información sobre la orden ls consultar el manual Texinfo. Utiliza la orden: `$> info coreutils 'ls invocation'`
+  ```console
+  [root@localhost ~]# ls -ltac
+  total 32
+  dr-xr-xr-x 22 root root 4096 Dec 16 11:42 ..
+  -rw-------  1 root root   53 Sep 13  2011 .bash_history
+  dr-xr-x---  2 root root 4096 Nov  3  2010 .
+  -rw-r--r--  1 root root   18 Nov  3  2010 .bash_logout
+  -rw-r--r--  1 root root  176 Nov  3  2010 .bash_profile
+  -rw-r--r--  1 root root  176 Nov  3  2010 .bashrc
+  -rw-r--r--  1 root root  100 Nov  3  2010 .cshrc
+  -rw-r--r--  1 root root  129 Nov  3  2010 .tcshrc
+  ```
+
+<a name="ejer139"></a>
+**Ejercicio 9**. Resuelve las siguientes cuestiones relacionadas con la consulta de metadatos del sistema de archivos:
+1. Comprueba cuántos bloques de datos está usando la partición raíz del sistema UML del laboratorio. Ahora obtén la misma información pero expresada en “human readable format”: Megabytes o Gigabytes. Para ello consulta en detalle el manual en línea.
+
+   ```console
+   [x@x ~]$ df  /tmp/Fedora14-x86-root_fs
+   Filesystem     1K-blocks    Used Available Use% Mounted on
+   tmpfs            4035632 1130688   2904944  29% /tmp
+   [zes@zesarch ~]$ df -h /tmp/Fedora14-x86-root_fs
+   Filesystem      Size  Used Avail Use% Mounted on
+   tmpfs           3.9G  1.1G  2.8G  29% /tmp
+   ```
+2. ¿Cuántos inodos se están usando en la partición raíz? ¿Cuántos nuevos archivos se podrían crear en esta partición?
+   ```console
+   [root@localhost ~]# df -i /
+  Filesystem            Inodes   IUsed   IFree IUse% Mounted on
+  LABEL=ROOT             65536   14665   50871   23% /
+  ```
+3. ¿Cuál es el tamaño del directorio /etc? ¿Y el del directorio /var? Compara estos tamaños con los de los directorios /bin, /usr y /lib. Anota brevemente tus conclusiones.
+   ```console
+   [root@localhost ~]# du -ch /etc 2>&1 | grep -v "cannot acces" | tail -n 1
+   21M	total
+   [root@localhost ~]# du -ch /var 2>&1 | grep -v "cannot acces" | tail -n 1
+   14M	total
+   [root@localhost ~]# du -ch /bin 2>&1 | grep -v "cannot acces" | tail -n 1
+   5.3M	total
+   [root@localhost ~]# du -ch /usr 2>&1 | grep -v "cannot acces" | tail -n 1
+   297M	total
+   [root@localhost ~]# du -ch /lib 2>&1 | grep -v "cannot acces" | tail -n 1
+   24M	total
+   [root@localhost ~]#
+   ```
+
+4. Obtén el número de bloques de tamaño 4 KB que utiliza la rama de la estructura jerárquica de directorios que comienza en el directorio /etc. En otras palabras, los bloques de tamaño 4 KB del subárbol cuya raíz es /etc. ¿Cuál es el tamaño de bloque, por omisión, utilizado en el SA?
+   ```console
+   [root@localhost ~]# du -cB4K /etc 2>&1 | grep -v "cannot acces" | tail -n 1
+   5264	total
+   ```
+   El tamaño de bloque es 4K.
+
+<a name="ejer1310"></a>
+**Ejercicio 10**. Construye los mismos enlaces, duros y simbólicos, que muestra la salida por pantalla anterior. Para ello crea los archivos archivo.txt y target_hardLink2.txt y, utilizando el manual en línea para ln, construye los enlaces softLink, hardLink y hardLink2. Anota las órdenes que has utilizado. ¿Por qué el contador de enlaces del archivo archivo.txt vale 2 si sobre el existen un enlace duro hardLink y un enlace simbólico softLink?
+
 
 ---
 
