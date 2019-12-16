@@ -38,6 +38,9 @@ Memoria de las prácticas de Sistemas Operativos.
     + [Ejercicio 8](#ejer138)
     + [Ejercicio 9](#ejer139)
     + [Ejercicio 10](#ejer1310)
+    + [Ejercicio 11](#ejer1211)
+    + [Ejercicio 12](#ejer1212)
+  + [Sesión 4](#sesion14)
 + [Módulo II](#modulo2)
   + [Sesión 1](#sesion1)
     + [Ejercicio 1](#ejer1)
@@ -1365,10 +1368,72 @@ Archivos bash:
    [root@localhost ~]# du -cB4K /etc 2>&1 | grep -v "cannot acces" | tail -n 1
    5264	total
    ```
-   El tamaño de bloque es 4K.
+   El tamaño de bloque es 4K. Para asegurarnos:
+   ```console
+   [x@x UGR-SO]$ tune2fs -l /tmp/Fedora14-x86-root_fs | grep "Block size"
+   Block size:               4096
+   ```
 
 <a name="ejer1310"></a>
 **Ejercicio 10**. Construye los mismos enlaces, duros y simbólicos, que muestra la salida por pantalla anterior. Para ello crea los archivos archivo.txt y target_hardLink2.txt y, utilizando el manual en línea para ln, construye los enlaces softLink, hardLink y hardLink2. Anota las órdenes que has utilizado. ¿Por qué el contador de enlaces del archivo archivo.txt vale 2 si sobre el existen un enlace duro hardLink y un enlace simbólico softLink?
+
+```console
+[root@localhost ~]# touch archivo.txt target_hardlink2.txt
+[root@localhost ~]# ln archivo.txt hardlink
+[root@localhost ~]# ln target_hardlink2.txt hardlink2
+[root@localhost ~]# ln -s archivo.txt softlink
+[root@localhost ~]# ls -lai
+total 32
+  311 dr-xr-x---  2 root root 4096 Dec 16 13:12 .
+    2 dr-xr-xr-x 22 root root 4096 Dec 16 11:42 ..
+   58 -rw-------  1 root root   53 Sep 13  2011 .bash_history
+ 3958 -rw-r--r--  1 root root   18 Mar 30  2009 .bash_logout
+ 3959 -rw-r--r--  1 root root  176 Mar 30  2009 .bash_profile
+ 3960 -rw-r--r--  1 root root  176 Sep 22  2004 .bashrc
+ 3961 -rw-r--r--  1 root root  100 Sep 22  2004 .cshrc
+ 3962 -rw-r--r--  1 root root  129 Dec  3  2004 .tcshrc
+14175 -rw-r--r--  2 root root    0 Dec 16 13:05 archivo.txt
+14175 -rw-r--r--  2 root root    0 Dec 16 13:05 hardlink
+14238 -rw-r--r--  2 root root    0 Dec 16 13:05 hardlink2
+14239 lrwxrwxrwx  1 root root   11 Dec 16 13:12 softlink -> archivo.txt
+14238 -rw-r--r--  2 root root    0 Dec 16 13:05 target_hardlink2.txt
+```
+
+El contador muestra el número de enlaces duros sobre el inodo, los enlaces tipo "soft" no apuntan al inodo, sino al archivo.
+
+<a name="ejer1311"></a>
+**Ejercicio 11**. Proporciona las opciones necesarias de la orden ls para obtener la información de metadatos de los archivos de un directorio concreto en los dos casos siguientes:
+- En el caso de que haya archivos de tipo enlace simbólico, la orden debe mostrar la información del archivo al que enlaza cada enlace simbólico y no la del propio archivo de tipo enlace simbólico.
+   ```console
+   [root@localhost ~]# ls -lL
+   total 0
+   -rw-r--r-- 2 root root 0 Dec 16 13:05 archivo.txt
+   -rw-r--r-- 2 root root 0 Dec 16 13:05 hardlink
+   -rw-r--r-- 2 root root 0 Dec 16 13:05 hardlink2
+   -rw-r--r-- 2 root root 0 Dec 16 13:05 softlink
+   -rw-r--r-- 2 root root 0 Dec 16 13:05 target_hardlink2.txt
+   ```
+- En el caso de enlaces simbólicos debe mostrar la información del enlace en sí, no del archivo al cual enlaza. En el caso de directorios no debe mostrar su contenido sino los metadatos del directorio.
+   ```console
+   [root@localhost ~]# ls -ld
+   dr-xr-x--- 2 root root 4096 Dec 16 13:12 .
+   ```
+
+<a name="ejer1312"></a>
+**Ejercicio 12**. Consulta el manual en línea para la orden mknod y crea un dispositivo de bloques y otro de caracteres. Anota las órdenes que has utilizado y la salida que proporciona un ls -li de los dos archivos de dispositivo recién creados. Puedes utilizar las salidas por pantalla mostradas en esta sección del guión para ver el aspecto que debe presentar la información de un archivo de dispositivo.
+
+```console
+[root@localhost ~]# mknod null_block b 1 3
+[root@localhost ~]# mknod null_char c 1 3
+[root@localhost ~]# ls -li null_*
+14241 brw-r--r-- 1 root root 1, 3 Dec 16 13:24 null_block
+14248 crw-r--r-- 1 root root 1, 3 Dec 16 13:24 null_char
+```
+
+---
+
+<a name="sesion14"></a>
+### Sesión IV
 
 
 ---
