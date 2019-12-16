@@ -41,6 +41,7 @@ Memoria de las prácticas de Sistemas Operativos.
     + [Ejercicio 11](#ejer1211)
     + [Ejercicio 12](#ejer1212)
   + [Sesión 4](#sesion14)
+    + [Ejercicio 1](#ejer141)
 + [Módulo II](#modulo2)
   + [Sesión 1](#sesion1)
     + [Ejercicio 1](#ejer1)
@@ -1434,6 +1435,14 @@ El contador muestra el número de enlaces duros sobre el inodo, los enlaces tipo
 
 <a name="sesion14"></a>
 ### Sesión IV
+
+<a name="ejer141"></a>
+**Ejercicio 1**. A partir de la información proporcionada por la orden ps encuentre los datos asociados a los demonios atd y crond, en concreto: quién es su padre, qué terminal tienen asociado y cuál es su usuario.
+```console
+[root@localhost ~]# ps -C crond -f
+UID        PID  PPID  C STIME TTY          TIME CMD
+root      1166     1  0 11:42 ?        00:00:00 crond
+```
 
 
 ---
