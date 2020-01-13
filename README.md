@@ -3106,6 +3106,7 @@ int es_primo(long int n){
 envioSignal.c
 </summary>
 <p>
+
 ```c
 /*
  envioSignal.c
@@ -3158,6 +3159,7 @@ int main(int argc, char *argv[])
               }
 }
 ```
+
 </p>
 </details>
 
@@ -3166,6 +3168,7 @@ int main(int argc, char *argv[])
 reciboSignal.c
 </summary>
 <p>
+
 ```c
 /*
  reciboSignal.c
