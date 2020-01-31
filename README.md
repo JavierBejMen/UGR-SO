@@ -3231,6 +3231,12 @@ for(;;)
 </p>
 </details>
 
+El programa envioSignal permite enviar una señal a la hebra especificada, donde el programa reciboSignal sobreescribe el manejador de señal para SIGUSR1 y SIGUSR2.
+
+**Ejercicio 2**. Escribe un programa en C llamado contador, tal que cada vez que reciba una
+señal que se pueda manejar, muestre por pantalla la señal y el número de veces que se ha
+recibido ese tipo de señal, y un mensaje inicial indicando las señales que no puede manejar. En el
+cuadro siguiente se muestra un ejemplo de ejecución del programa. 
 
 
 
