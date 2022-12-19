@@ -68,6 +68,10 @@ Memoria de las prácticas de Sistemas Operativos.
     + [Ejercicio 4](#ejer44)
     + [Ejercicio 5](#ejer45)
   + [Sesión 5](#sesion5)
+    + [Ejercicio 1](#ejer51)
+    + [Ejercicio 2](#ejer52)
+    + [Ejercicio 3](#ejer53)
+    + [Ejercicio 4](#ejer54)
 
 
 
@@ -3233,13 +3237,169 @@ for(;;)
 
 El programa envioSignal permite enviar una señal a la hebra especificada, donde el programa reciboSignal sobreescribe el manejador de señal para SIGUSR1 y SIGUSR2.
 
+<a name="ejer52"></a>
+	
 **Ejercicio 2**. Escribe un programa en C llamado contador, tal que cada vez que reciba una
 señal que se pueda manejar, muestre por pantalla la señal y el número de veces que se ha
 recibido ese tipo de señal, y un mensaje inicial indicando las señales que no puede manejar. En el
 cuadro siguiente se muestra un ejemplo de ejecución del programa. 
+	
+```c
+#include <sys/types.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
+#include <errno.h>
+
+int sig_count[64];
 
 
+void sig_USR_hdlr(int sigNum){
+  sig_count[sigNum]++;
+  printf("La señal %i se ha recibido %i veces\n", sigNum, sig_count[sigNum]);
+}
+
+int main(int argc, char *argv[]){
+
+  for(int i=0; i<SIGRTMAX; ++i){
+    sig_count[i]=0;
+  }
+
+  srand(time(0));
+  int n_skip = 1 + rand() % 10;
 
 
+  struct sigaction sa;
+  sa.sa_handler = sig_USR_hdlr;
 
+  if(sigfillset(&sa.sa_mask) != 0){
+    perror("\nError al intenar inicializar sa_mask");
+    exit(EXIT_FAILURE);
+  }
+
+  int s_skip = 0;
+  for(int i=0; i<n_skip; ++i){
+    s_skip = SIGRTMIN+1 + rand() % SIGRTMAX;
+    if(sigdelset(&sa.sa_mask, s_skip) != 0){
+      perror("\nError al eliminar señal de sa_mask");
+    }else{
+      printf("\nLa señal %i es ignorada", s_skip);
+    }
+  }
+}
+```
+
+<a name="ejer53"></a>
+	
+**Ejercicio 3**. Escribe un programa que suspenda la ejecución del proceso actual hasta que se reciba la señal SIGUSR1. Consulta en el manual en línea sigemptyset para conocer las distintas operaciones que permiten configurar el conjunto de señales de un proceso.
+
+```c
+#include <stdio.h>
+#include <signal.h>
+
+void manejador(int i){
+	printf("Acaba de desbloquearse el proceso.\n");
+}
+
+int main(){
+
+	sigset_t mascara;
+
+	struct sigaction tarea;
+
+	//inicializamos la máscara
+	sigemptyset(&tarea.sa_mask);
+
+	//le asignamos manejador
+	tarea.sa_handler = manejador;
+
+	//le asignamos manejador a SIGUSR1
+	sigaction(SIGUSR1, &tarea, NULL);
+
+	tarea.sa_flags = 0;
+
+	//vacíamos y añadimos todas las señales a máscara
+	sigemptyset(&mascara);
+
+	sigfillset(&mascara);
+
+	//eliminamos SIGUSR1 de la máscara
+	sigdelset(&mascara, SIGUSR1);
+
+	//suspende el proceso hasta que se envía alguna de las señales que NO están en la máscara
+	sigsuspend(&mascara);
+	
+	return 0;
+
+}
+```
+	
+<a name="ejer54"></a>
+	
+**Ejercicio 4**. Compila y ejecuta el siguiente programa y trata de entender su funcionamiento.
+	
+```c
+// tarea12.c
+
+#include <signal.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdlib.h>
+
+static int signal_recibida = 0;
+
+static void manejador (int sig)
+{
+          signal_recibida = 1;
+}
+
+int main (int argc, char *argv[])
+{
+    sigset_t conjunto_mascaras;
+    sigset_t conj_mascaras_original;
+    struct sigaction act;
+//Iniciamos a 0 todos los elementos de la estructura act 
+    memset (&act, 0, sizeof(act));
+
+    act.sa_handler = manejador;
+
+    if (sigaction(SIGTERM, &act, 0)) {
+        perror ("sigaction");
+        exit(EXIT_FAILURE);
+    }
+    
+    //Iniciamos un nuevo conjunto de mascaras
+    sigemptyset (&conjunto_mascaras);
+    //A–adimos SIGTERM al conjunto de mascaras
+    sigaddset (&conjunto_mascaras, SIGTERM);
+    
+    //Bloqueamos SIGTERM
+    if (sigprocmask(SIG_BLOCK, &conjunto_mascaras, &conj_mascaras_original) < 0) {
+       perror ("primer sigprocmask");
+       exit(EXIT_FAILURE);
+    }
+
+    sleep (10);
+
+    //Restauramos la señal – desbloqueamos SIGTERM
+    if (sigprocmask(SIG_SETMASK, &conj_mascaras_original, NULL) < 0) {
+       perror ("segundo sigprocmask");
+       exit(EXIT_FAILURE);
+       }
+
+    sleep (1);
+
+   if (signal_recibida)
+       printf ("\nSenal recibida\n");
+   exit(EXIT_SUCCESS);
+}
+```
+El programa:
+- bloquea la señal SIGTERM durante 10s
+- se desbloquea dicha señal
+- si durante los 10s de espera ha recibido dicha señal SIGTERM, muestra por pantalla que la ha recibido
+- Cuando se recibe SIGTERM, se ejecuta el manejador de señales que se ha asociado, que establece signal_recibida a 1
+	
 ---
